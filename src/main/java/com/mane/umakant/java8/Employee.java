@@ -115,6 +115,7 @@ public class Employee {
         employeeList.add(new Employee(266, "Sanvi Pandey", 26, "Female", "Product Development", 2015, 28900.0));
         employeeList.add(new Employee(277, "Nitin Joshi", 31, "Male", "Product Development", 2012, 35700.0));
 
+
         // 1: How many male and female employees are there in the organization?
         Map<String, Long> How_many_male_and_female_employees_are_there_in_the_organization = employeeList.stream().collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
         System.out.println("How_many_male_and_female_employees_are_there_in_the_organization:: " + How_many_male_and_female_employees_are_there_in_the_organization);
@@ -259,6 +260,12 @@ public class Employee {
         System.out.println("min: " + average_salary_and_total_salary_of_the_whole_organization.getMin());
         System.out.println("average: " + average_salary_and_total_salary_of_the_whole_organization.getAverage());
         System.out.println("max: " + average_salary_and_total_salary_of_the_whole_organization.getMax());
+        //or
+        OptionalDouble average_salary_of_employees = employeeList.stream()
+                .mapToDouble(e -> e.getSalary()).average();
+        if (average_salary_of_employees.isPresent()) {
+            System.out.println("average_salary_of_employees:: " + average_salary_of_employees);
+        }
 
         // 14 : Separate the employees who are younger or equal to 25 years from those employees who are older than 25 years.
         // Partition employees into two groups: <= 25 years old and > 25 years old
@@ -334,6 +341,12 @@ public class Employee {
                 .sorted(Comparator.comparingInt(Employee::getAge).reversed())
                 .findFirst();
         System.out.println("highest_age_of_a_employee_details3:: " + highest_age_of_a_employee_details3);
+        // or highest only age of a employee
+        OptionalInt highest_age_of_a_employee_details4 = employeeList.stream()
+                .mapToInt(e -> e.getAge())
+                .max();
+        System.out.println("highest_age_of_a_employee:: " + highest_age_of_a_employee_details4);
+
 
         // 18: find the largest record based on Salary
         Optional<Employee> largest_record_based_on_Salary = employeeList.stream()
@@ -382,64 +395,241 @@ public class Employee {
                 .sorted(Comparator.comparing(Employee::getAge)
                         .reversed())
                 .collect(Collectors.toList());
-        System.out.println("descending_sort_based_on_age:: "+descending_sort_based_on_age);
+        System.out.println("descending_sort_based_on_age:: " + descending_sort_based_on_age);
         //or
         List<Employee> descending_sort_based_on_age1 = employeeList.stream()
-                .sorted((e1,e2)-> e2.age-e1.getAge())
+                .sorted((e1, e2) -> e2.age - e1.getAge())
                 .collect(Collectors.toList());
-        System.out.println("descending_sort_based_on_age1:: "+descending_sort_based_on_age1);
+        System.out.println("descending_sort_based_on_age1:: " + descending_sort_based_on_age1);
 
         // 22: ascending sort based on salary
-        List<Employee> ascending_sort_based_on_salary=employeeList.stream()
+        List<Employee> ascending_sort_based_on_salary = employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getSalary))
                 .collect(Collectors.toList());
-        System.out.println("ascending_sort_based_on_salary:: "+ascending_sort_based_on_salary);
+        System.out.println("ascending_sort_based_on_salary:: " + ascending_sort_based_on_salary);
         //or
-        List<Employee> ascending_sort_based_on_salary1=employeeList.stream()
+        List<Employee> ascending_sort_based_on_salary1 = employeeList.stream()
                 .sorted(Comparator.comparingDouble(Employee::getSalary))// Sort by salary in ascending order
                 .collect(Collectors.toList());
-        System.out.println("ascending_sort_based_on_salary1:: "+ascending_sort_based_on_salary1);
+        System.out.println("ascending_sort_based_on_salary1:: " + ascending_sort_based_on_salary1);
         // or
-       List<Employee> ascending_sort_based_on_salary2=employeeList.stream()
+        List<Employee> ascending_sort_based_on_salary2 = employeeList.stream()
                 .sorted((e1, e2) -> (int) (e1.getSalary() - e2.getSalary()))
                 .collect(Collectors.toList());
-        System.out.println("ascending_sort_based_on_salary2:: "+ascending_sort_based_on_salary2);
+        System.out.println("ascending_sort_based_on_salary2:: " + ascending_sort_based_on_salary2);
 
         // 23: descending sort based on salary
-        List<Employee> descending_sort_based_on_salary=employeeList.stream()
+        List<Employee> descending_sort_based_on_salary = employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getSalary)
                         .reversed())
                 .collect(Collectors.toList());
-        System.out.println("descending_sort_based_on_salary:: "+descending_sort_based_on_salary);
+        System.out.println("descending_sort_based_on_salary:: " + descending_sort_based_on_salary);
         //or
-        List<Employee> descending_sort_based_on_salary1=employeeList.stream()
-                .sorted((e1,e2)->(int)(e2.getSalary()-e1.getSalary()))
+        List<Employee> descending_sort_based_on_salary1 = employeeList.stream()
+                .sorted((e1, e2) -> (int) (e2.getSalary() - e1.getSalary()))
                 .collect(Collectors.toList());
-        System.out.println("descending_sort_based_on_salary1:: "+descending_sort_based_on_salary1);
+        System.out.println("descending_sort_based_on_salary1:: " + descending_sort_based_on_salary1);
 
         // 24: ascending Sort Based On Name
-        List<Employee>  ascendingSortBasedOnName=employeeList.stream()
+        List<Employee> ascendingSortBasedOnName = employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getName))
                 .collect(Collectors.toList());
-        System.out.println("ascendingSortBasedOnName:: "+ascendingSortBasedOnName);
+        System.out.println("ascendingSortBasedOnName:: " + ascendingSortBasedOnName);
         // or
-        List<Employee>  ascendingSortBasedOnName1=employeeList.stream()
-                .sorted((e1,e2)->e1.getName().compareTo(e2.getName()))
+        List<Employee> ascendingSortBasedOnName1 = employeeList.stream()
+                .sorted((e1, e2) -> e1.getName().compareTo(e2.getName()))
                 .collect(Collectors.toList());
-        System.out.println("ascendingSortBasedOnName1:: "+ascendingSortBasedOnName1);
+        System.out.println("ascendingSortBasedOnName1:: " + ascendingSortBasedOnName1);
 
         // 25 descending Sort Based On Name
-        List<Employee> descendingSortBasedOnName =employeeList.stream()
+        List<Employee> descendingSortBasedOnName = employeeList.stream()
                 .sorted(Comparator.comparing(Employee::getName)
                         .reversed())
                 .collect(Collectors.toList());
-        System.out.println("descendingSortBasedOnName:: "+descendingSortBasedOnName);
+        System.out.println("descendingSortBasedOnName:: " + descendingSortBasedOnName);
         //or
-        List<Employee> descendingSortBasedOnName1= employeeList.stream()
-                .sorted((e1,e2)->e2.getName().compareTo(e1.getName()))
+        List<Employee> descendingSortBasedOnName1 = employeeList.stream()
+                .sorted((e1, e2) -> e2.getName().compareTo(e1.getName()))
                 .collect(Collectors.toList());
-        System.out.println("descendingSortBasedOnName1:: "+descendingSortBasedOnName1);
+        System.out.println("descendingSortBasedOnName1:: " + descendingSortBasedOnName1);
 
         // 26 ascending sort based on age and name
+        List<Employee> ascending_sort_based_on_age_and_name = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge) // Sort by age first
+                        .thenComparing(Comparator.comparing(Employee::getName))) // Then sort by name
+                .collect(Collectors.toList());
+        System.out.println("ascending_sort_based_on_age_and_name:: " + ascending_sort_based_on_age_and_name);
+        //or
+        Comparator<Employee> byAgeAscOrder = (e1, e2) -> e1.getAge() - e2.getAge();
+        Comparator<Employee> byNameAscOrder = (e1, e2) -> e1.getName().compareTo(e2.getName());
+        List<Employee> ascending_sort_based_on_age_and_name1 = employeeList.stream()
+                .sorted(byAgeAscOrder.thenComparing(byNameAscOrder))
+                .collect(Collectors.toList());
+        System.out.println("ascending_sort_based_on_age_and_name1:: " + ascending_sort_based_on_age_and_name1);
+
+        // 27 ascending sort based on age and name and salary
+        List<Employee> ascending_sort_based_on_age_and_name_and_salary = employeeList.stream()
+                .sorted(Comparator.comparingInt(Employee::getAge) // Sort by age first
+                        .thenComparing(Employee::getName) // Then sort by name
+                        .thenComparingDouble(Employee::getSalary)) // Then sort by salary
+                .collect(Collectors.toList());
+        System.out.println("ascending_sort_based_on_age_and_name_and_salary:: " + ascending_sort_based_on_age_and_name_and_salary);
+        // or below suggesion from chatGpt.
+        //Comparator<Employee> bySalryAscOrder=(e1,e2)->(int) (e1.getSalary()-e2.getSalary());
+        Comparator<Employee> bySalryAscOrder = (e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary());
+        List<Employee> ascending_sort_based_on_age_and_name_and_salary2 = employeeList.stream()
+                .sorted(byAgeAscOrder
+                        .thenComparing(byNameAscOrder)
+                        .thenComparing(bySalryAscOrder))
+                .collect(Collectors.toList());
+        System.out.println("ascending_sort_based_on_age_and_name_and_salary2:: " + ascending_sort_based_on_age_and_name_and_salary2);
+
+        // 28 descending sort based on age and name and salary
+        Comparator<Employee> byAgeDescOrder = (e1, e2) -> e2.getAge() - e1.getAge();
+        Comparator<Employee> byNameDescOrder = (e1, e2) -> e2.getName().compareTo(e1.getName());
+        // Comparator<Employee> bySalryDescOrder = (e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary());
+        Comparator<Employee> bySalryDescOrder = (e1, e2) -> (int) (e2.getSalary() - e1.getSalary());
+
+        List<Employee> descending_sort_based_on_age_and_name_and_salary = employeeList.stream()
+                .sorted(byAgeDescOrder.
+                        thenComparing(byNameDescOrder)
+                        .thenComparing(bySalryDescOrder))
+                .collect(Collectors.toList());
+        System.out.println("descending_sort_based_on_age_and_name_and_salary:: " + descending_sort_based_on_age_and_name_and_salary);
+
+        List<Employee> descending_sort_based_on_age_and_name_and_salary1 = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge)
+                        .thenComparing(Employee::getName)
+                        .thenComparing(Employee::getSalary)
+                        .reversed())
+                .collect(Collectors.toList());
+        System.out.println("descending_sort_based_on_age_and_name_and_salary1:: " + descending_sort_based_on_age_and_name_and_salary1);
+        // or
+        List<Employee> descending_sort_based_on_age_and_name_and_salary2 = employeeList.stream()
+                .sorted(Comparator.comparingInt(Employee::getAge)  // Sort by age (descending)
+                        .thenComparing(Employee::getName)  // Sort by name (descending)
+                        .thenComparingDouble(Employee::getSalary).reversed()) // Sort by salary (descending)
+                .collect(Collectors.toList());
+        System.out.println("descending_sort_based_on_age_and_name_and_salary2:: " + descending_sort_based_on_age_and_name_and_salary2);
+        List<Employee> descending_sort_based_on_age_and_name_and_salary3 = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge)
+                        .thenComparing(Comparator.comparing(Employee::getName)
+                                .thenComparing(Comparator.comparing(Employee::getSalary)))
+                        .reversed())
+                .collect(Collectors.toList());
+        System.out.println("descending_sort_based_on_age_and_name_and_salary3::  " + descending_sort_based_on_age_and_name_and_salary3);
+
+
+        // 29 Find first ascending record based on age and name and salary
+        Optional<Employee> first_ascending_record_based_on_age_and_name_and_salary = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge)   // Sort by age (ascending)
+                        .thenComparing(Employee::getName)   // Then by name (ascending)
+                        .thenComparing(Employee::getSalary))    // Then by salary (ascending)
+                .findFirst();
+        System.out.println("first_ascending_record_based_on_age_and_name_and_salary:: " + first_ascending_record_based_on_age_and_name_and_salary);
+
+        // 30 Find Second ascending record based on age and name and salary
+        Optional<Employee> second_ascending_record_based_on_age_and_name_and_salary = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge)
+                        .thenComparing(Employee::getName)
+                        .thenComparing(Employee::getSalary))
+                .skip(1)
+                .findFirst();
+        System.out.println("second_ascending_record_based_on_age_and_name_and_salary:: " + second_ascending_record_based_on_age_and_name_and_salary);
+
+        // 31 Find first descending record based on age and name and salary
+        Optional<Employee> first_descending_record_based_on_age_and_name_and_salary = employeeList.stream()
+                .sorted(Comparator.comparing(Employee::getAge).thenComparing(Employee::getName).thenComparing(Employee::getSalary).reversed())
+                .findFirst();
+        System.out.println("first_descending_record_based_on_age_and_name_and_salary:: " + first_descending_record_based_on_age_and_name_and_salary);
+
+        // 32 Find second descending record based on age and name and salary
+        Optional<Employee> second_descending_record_based_on_age_and_name_and_salary =
+                employeeList.stream()
+                        .sorted(Comparator.comparing(Employee::getAge)
+                                .thenComparing(Employee::getName)
+                                .thenComparing(Employee::getSalary)
+                                .reversed())
+                        .skip(1)
+                        .findFirst();
+        System.out.println("second_descending_record_based_on_age_and_name_and_salary:: " + second_descending_record_based_on_age_and_name_and_salary);
+
+        // 33 Find the average salary of employee
+        //        This solusion is coverd in quesion number 13. refer that.
+
+        // 34 find all the employee whose age is greater than 30
+        List<Employee> all_the_employee_whose_age_is_greater_than_30 = employeeList.stream()
+                .filter(e -> e.getAge() > 30)
+                .collect(Collectors.toList());
+        System.out.println("all_the_employee_whose_age_is_greater_than_30:: " + all_the_employee_whose_age_is_greater_than_30);
+
+        // 34.1 find all the employee names whose age is greater than 30
+        List<String> all_the_employee_names_whose_age_is_greater_than_30 = employeeList.stream()
+                .filter(e -> e.getAge() > 30)
+                .map(e -> e.getName())
+                .collect(Collectors.toList());
+        System.out.println("all_the_employee_names_whose_age_is_greater_than_30:: " + all_the_employee_names_whose_age_is_greater_than_30);
+
+        // 35 count number of employees with age greater 30?
+        long count_number_of_employees_with_age_greater_30 = employeeList.stream()
+                .filter(e -> e.getAge() > 30)
+                .count();
+        System.out.println("count_number_of_employees_with_age_greater_30:: " + count_number_of_employees_with_age_greater_30);
+
+        // 36 find the employee with name “Manu”.
+        List<Employee> employee_with_name_Manu = employeeList.stream()
+                .filter(e -> e.getName().startsWith("Manu"))
+                .collect(Collectors.toList());
+        System.out.println("employee_with_name_Manu:: " + employee_with_name_Manu);
+
+        // 37 find maximum age of employee?
+        // coverd in quesion number 17 refer that.
+
+        // 38 Join the all employee names with “,”
+        String joinedNames = employeeList.stream()
+                .map(Employee::getName)             // Map each employee to their name
+                .collect(Collectors.joining(","));  // Join names with ","
+
+        // Print the joined names
+        System.out.println("joinedNames_with_:: " + joinedNames);
+        // or
+        List<String> employeeNames = employeeList.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+        String employeeNamesStrwith_ = String.join("_", employeeNames);
+        System.out.println("employeeNamesStrwith_: " + employeeNamesStrwith_);
+
+        // 39 group employees based on employee name
+        Map<String, List<Employee>> group_employees_based_on_employee_name = employeeList.stream().collect(Collectors.groupingBy(Employee::getName));
+        System.out.println("group_employees_based_on_employee_name:: " + group_employees_based_on_employee_name);
+
+        // 40 group by department name and find only employee names
+        Map<String, List<String>> group_by_department_name_and_find_only_employee_names = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.mapping(Employee::getName, Collectors.toList())));
+        System.out.println("group_by_department_name_and_find_only_employee_names:: " + group_by_department_name_and_find_only_employee_names);
+
+        // 41 find duplicate name
+        // Find duplicate names
+        Map<String, Long> nameCount = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getName, Collectors.counting()));
+
+        List<String> duplicateNames = nameCount.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)  // Filter names with count > 1 (duplicates)
+                .map(Map.Entry::getKey)                 // Extract the name (key)
+                .collect(Collectors.toList());          // Collect the duplicates into a list
+
+        // Print duplicate names
+        System.out.println("Duplicate names: " + duplicateNames);
+        // or
+        List<String> duplicateNamesEmployees = employeeList.stream()
+                .collect(Collectors.groupingBy(Employee::getName, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(x -> x.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        System.out.println("duplicateNamesEmployees:: " + duplicateNamesEmployees);
+
     }
 }
