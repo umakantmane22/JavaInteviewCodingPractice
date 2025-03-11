@@ -87,6 +87,13 @@ public class NthHighestSalaryDemo {
                         .collect(Collectors.toList())
                         .get(2) // 2=third highest,
         );
+        Map<Integer, List<Entry<String, Integer>>> groupByValue = map2.entrySet().stream()
+                .collect(Collectors.groupingBy(Entry::getValue));
+        System.out.println("groupByValue:: "+groupByValue);
+
+        Map<Integer, List<String>> groupByValueAndNames = map2.entrySet().stream()
+                .collect(Collectors.groupingBy(Entry::getValue, Collectors.mapping(Entry::getKey, Collectors.toList())));
+        System.out.println("groupByValueAndNames:: "+groupByValueAndNames);
     }
 
 
