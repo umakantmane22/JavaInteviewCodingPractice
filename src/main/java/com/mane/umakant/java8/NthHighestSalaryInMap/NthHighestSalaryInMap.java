@@ -1,4 +1,4 @@
-package com.mane.umakant.java8;
+package com.mane.umakant.java8.NthHighestSalaryInMap;
 
 import java.util.Collections;
 import java.util.HashMap;
