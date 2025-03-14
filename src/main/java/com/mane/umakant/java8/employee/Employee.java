@@ -1,10 +1,8 @@
 // Start https://javaconceptoftheday.com/solving-real-time-queries-using-java-8-features-employee-management-system/
-package com.mane.umakant.java8;
+package com.mane.umakant.java8.employee;
 
 import java.util.*;
-import java.util.function.DoubleUnaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Employee {
     int id;
