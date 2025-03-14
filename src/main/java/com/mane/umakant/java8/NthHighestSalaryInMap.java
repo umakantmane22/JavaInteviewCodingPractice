@@ -1,15 +1,13 @@
 package com.mane.umakant.java8;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class NthHighestSalaryDemo {
+public class NthHighestSalaryInMap {
     // find second highest salary
     public static void main(String[] args) {
         // Tricky question
