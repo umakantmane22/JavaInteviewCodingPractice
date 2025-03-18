@@ -207,26 +207,26 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         // In: List<String> nos=Arrays.asList("1","2","3","4");
         // Op: 1-2-3-4
 
-        List<String> nos=Arrays.asList("1","2","3","4");
+        List<String> nos = Arrays.asList("1", "2", "3", "4");
         // Join the strings with a hyphen using Collectors.joining
         String result = nos.stream()
                 .collect(Collectors.joining("-"));
 
-        System.out.println("Q9:: join_given_string_with- "+result);
+        System.out.println("Q9:: join_given_string_with- " + result);
         // or
         String joinWithDelimiter = String.join("-", nos);
         System.out.println("join_given_string_with1-: " + joinWithDelimiter);
 
         // Q 10: skip and limit example(2-9)
         // print value from 3 to 8
-        List<Integer>  value_from_3_to_8 = IntStream.rangeClosed(2, 8).boxed().skip(1).limit(8)
+        List<Integer> value_from_3_to_8 = IntStream.rangeClosed(2, 8).boxed().skip(1).limit(8)
                 // .forEach(System.out::println);
                 .collect(Collectors.toList());
         System.out.println("Q10:: value_from_3_to_8: " + value_from_3_to_8);
 
         // Q11 find sum of all numbers from given int arraylist
         // input: List<Integer> list=Arrays.asList(1,2,3,4,5); OP: 15
-        List<Integer> list=Arrays.asList(1,2,3,4,5);
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
         // Using stream and reduce to calculate the sum
         int sum_of_all_numbers_from_given_int_arraylist = list.stream()
                 .reduce(0, Integer::sum);
@@ -239,6 +239,117 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("Q12:  find average of given int array");
         // Q 12 find average of given int array
         // input: List<Integer> list=Arrays.asList(1,2,3,4,5);  OP: 3
+        OptionalDouble average_of_given_int_array = list.stream()
+                .mapToInt(Integer::valueOf)
+                .average();
+        if (average_of_given_int_array.isPresent()) {
+            System.out.println("Q12: average_of_given_int_array:: " + average_of_given_int_array);
+        }
+        double average_of_given_int_array1 = list.stream()
+                .mapToInt(i -> i).average().getAsDouble();
+        System.out.println("average_of_given_int_array1:: " + average_of_given_int_array1);
+
+        // Q13 find square of each element take value >100 and find average.
+        // e.g. input: List<Integer> list1=Arrays.asList(10,20,30,15);
+        // 100,400,900,225
+        // 400,900,225
+        // 1525/3=508.33333
+
+        List<Integer> list1 = Arrays.asList(10, 20, 30, 15);
+        double square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average = list1.stream()
+                .map(i -> i * i)
+                .filter(i -> i > 100)
+                .mapToInt(i -> i).average().getAsDouble();
+        System.out.println("Q13: square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average:: " + square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average);
+        // or
+        OptionalDouble square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average1 = list1.stream()
+                .map(x -> x * x)                   // Square each element
+                .filter(x -> x > 100)               // Filter values greater than 100
+                .mapToInt(Integer::intValue)        // Convert back to int
+                .average();                         // Calculate the average
+        if (square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average1.isPresent()) {
+            System.out.println("square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average1:: " + square_of_each_element_then_filter_those_greater_than_100_then_calculate_the_average1);
+        }
+
+        // Q14 find odd and even numbers op: oddNumbers:: [11, 3, 45, 67, 9, 87] evenNumbers:: [2, 90, 8, 2, 0]
+        List<Integer> oddEvenNumbers = Arrays.asList(11, 2, 3, 45, 67, 9, 90, 87, 8, 2, 0);
+        List<Integer> oddNumbers = oddEvenNumbers.stream()
+                .filter(x -> x % 2 != 0)
+                .collect(Collectors.toList());
+        List<Integer> evenNumbers = oddEvenNumbers.stream()
+                .filter(x -> x % 2 == 0)
+                .collect(Collectors.toList());
+        System.out.println("Q14: oddNumbers:: " + oddNumbers + " evenNumbers:: " + evenNumbers);
+        Map<Boolean, List<Integer>> partitioned = oddEvenNumbers.stream()
+                .collect(Collectors.partitioningBy(x -> x % 2 == 0));
+        // Retrieve and print the even and odd numbers
+        List<Integer> evenNumbers1 = partitioned.get(true);  // Even numbers
+        List<Integer> oddNumbers1 = partitioned.get(false);  // Odd numbers
+
+        System.out.println("Even Numbers: " + evenNumbers1);
+        System.out.println("Odd Numbers: " + oddNumbers1);
+
+        // Q15: find numbers which start with 2
+        // Ip:2,222,234,567,890,432,236,211,22
+        // Op:2,222,234,236,211,22
+        List<Integer> numbers1 = Arrays.asList(2, -222, 234, 567, 890, 432, 236, 211, 22);
+        List<String> numbers_which_start_with_two = numbers1.stream()
+                .map(x -> x + "")
+                .filter(x -> x.startsWith("2") || x.startsWith("-2"))
+                .collect(Collectors.toList());
+        System.out.println("Q15: numbers_which_start_with_two:: " + numbers_which_start_with_two);
+        // or
+        List<Integer> numbers_which_start_with_two2 = numbers1.stream()
+                .filter(num -> String.valueOf(num).startsWith("2"))  // Convert number to string and check if it starts with '2'
+                .collect(Collectors.toList());
+        System.out.println("numbers_which_start_with_two2:: " + numbers_which_start_with_two2);
+        // or
+        List<Integer> numbers_which_start_with_two3 = numbers1.stream().map(n -> n + "")
+                .filter(n -> n.startsWith("2"))
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
+        System.out.println("numbers_which_start_with_two3:: " + numbers_which_start_with_two3);
+
+        // Q16 find duplicate elements [1, 2, 3, 10, 30]
+        List<Integer> elementsList = Arrays.asList(1, 3, 10, 20, 30, 15, 1, 13, 2, 2, 10, 30, 19, 3);
+        List<Integer> duplicate_elements = elementsList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(x -> x.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        System.out.println("Q16: duplicate_elements:: " + duplicate_elements);
+        // or
+        Set<Integer> secondWay = elementsList.stream()
+                .filter(e -> Collections.frequency(elementsList, e) > 1)
+                .collect(Collectors.toSet());
+        System.out.println("duplicate_elements1:: " + secondWay);
+
+        Set<Integer> dupNum = new HashSet<>();
+        Set<Integer> thirsWay = elementsList.stream()
+                .filter(e -> !dupNum.add(e)).collect(Collectors.toSet());
+        System.out.println("duplicate_elements3:: " + thirsWay);
+
+        // Q17 find max and min // op Optional[40] min:: Optional[-1]
+        List<Integer> maxMinNumbers = Arrays.asList(-1, 0, 3, 10, 20, 30, 15, 1, 13, 1, 2, 2, 10, 40, 19, 3, 40);
+        // Find the maximum value
+        Optional<Integer> max = maxMinNumbers.stream()
+                .max(Comparator.naturalOrder());  // Using natural order to find the max
+
+        // Find the minimum value
+        Optional<Integer> min = maxMinNumbers.stream()
+                .min(Comparator.naturalOrder());  // Using natural order to find the min
+        System.out.println("Q17: max:: "+max+" min:: "+min);
+
+        // Q18 sort asc and desc order if given Integer array
+        //List<Integer> maxMinNumbers = Arrays.asList(-1, 0, 3, 10, 20, 30, 15, 1, 13, 1, 2, 2, 10, 40, 19, 3, 40);
+        List<Integer>ascSorting=maxMinNumbers.stream()
+                .sorted()// Natural ordering (ascending)
+                .collect(Collectors.toList());
+        List<Integer>descSorting=maxMinNumbers.stream()
+                .sorted((a,b)->b-a)
+                .collect(Collectors.toList());
+        System.out.println("Q18: ascSorting:: "+ascSorting+" descSorting:: "+descSorting);
     }
 
 }
