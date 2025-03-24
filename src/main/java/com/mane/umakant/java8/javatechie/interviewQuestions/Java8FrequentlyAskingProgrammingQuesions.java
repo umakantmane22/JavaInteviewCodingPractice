@@ -339,17 +339,150 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         // Find the minimum value
         Optional<Integer> min = maxMinNumbers.stream()
                 .min(Comparator.naturalOrder());  // Using natural order to find the min
-        System.out.println("Q17: max:: "+max+" min:: "+min);
+        System.out.println("Q17: max:: " + max + " min:: " + min);
 
         // Q18 sort asc and desc order if given Integer array
         //List<Integer> maxMinNumbers = Arrays.asList(-1, 0, 3, 10, 20, 30, 15, 1, 13, 1, 2, 2, 10, 40, 19, 3, 40);
-        List<Integer>ascSorting=maxMinNumbers.stream()
+        List<Integer> ascSorting = maxMinNumbers.stream()
                 .sorted()// Natural ordering (ascending)
                 .collect(Collectors.toList());
-        List<Integer>descSorting=maxMinNumbers.stream()
-                .sorted((a,b)->b-a)
+        List<Integer> descSorting = maxMinNumbers.stream()
+                .sorted((a, b) -> b - a)
                 .collect(Collectors.toList());
-        System.out.println("Q18: ascSorting:: "+ascSorting+" descSorting:: "+descSorting);
+        System.out.println("Q18: ascSorting:: " + ascSorting + " descSorting:: " + descSorting);
+        // Q18.1 find second max element
+        Optional<Integer> second_max_element = maxMinNumbers.stream().sorted(Collections.reverseOrder()).distinct().skip(1).findFirst();
+        System.out.println("Q18.1: second_max_element:: " + second_max_element);
+
+        // Q19 Skip and Limit example
+        // here I used elementsList as input
+        // List<Integer>
+        // List<Integer> elementsList = Arrays.asList(1, 3, 10, 20, 30, 15, 1, 13, 2, 2, 10, 30, 19, 3); //96
+
+        // skip first 5 numbers
+        List<Integer> skip_first_5_elements = elementsList.stream().skip(5).collect(Collectors.toList());
+        System.out.println("Q19: skip_first_5_elements:: " + skip_first_5_elements);
+
+        // skip first 5 element find sum of remaining elements
+        int skip_first_5_element_find_sum_of_remaining_elements = elementsList.stream().skip(5).reduce((a, b) -> a + b).get();
+        System.out.println("skip_first_5_element_find_sum_of_remaining_elements:: " + skip_first_5_element_find_sum_of_remaining_elements);
+        // get first 5 numbers
+        List<Integer> first_5_numbers = elementsList.stream().limit(5).collect(Collectors.toList());
+        System.out.println("first_5_numbers:: " + first_5_numbers);
+        // sum Of first 5 Elements
+        Integer sumOffirst5Elements = elementsList.stream().limit(5).reduce((a, b) -> a + b).get();
+        System.out.println("sumOffirst5Elements:: " + sumOffirst5Elements);
+
+        // Q 20: find second highest and lowest number.
+        // refer  Q18.1 for second highest number. or below
+        // Find the second maximum element
+        Optional<Integer> second_max_element1 = maxMinNumbers.stream()
+                .distinct()  // Remove duplicates
+                .sorted(Comparator.reverseOrder())  // Sort in descending order
+                .skip(1)  // Skip the first (maximum) element
+                .findFirst();  // Get the second element
+        System.out.println("Q20: second_max_element1:: " + second_max_element1);
+        // or
+        Optional<Integer> second_min_element = maxMinNumbers.stream().distinct().sorted().skip(1).findFirst();
+        System.out.println("second_min_element:: " + second_min_element);
+        // Find the second minimum element
+        Optional<Integer> second_min_element1 = maxMinNumbers.stream()
+                .distinct()  // Remove duplicates
+                .sorted()    // Sort in ascending order
+                .skip(1)     // Skip the first element (the smallest one)
+                .findFirst();  // Get the second minimum element
+        System.out.println("second_min_element1: " + second_min_element);
+
+        //Q21:  find NthHighestSalaryDemo from given map
+        //refer package com.mane.umakant.java8.NthHighestSalaryInMap.NthHighestSalaryInMap.java
+
+        // Q22 form a largest number from given array.
+        String arrFormLargestNumber[] = {"1", "34", "3", "98", "9", "76", "45", "4"};
+        // Sort the array using a custom comparator
+        Arrays.sort(arrFormLargestNumber, (a, b) -> (b + a).compareTo(a + b));
+        // Form the largest number by concatenating the sorted array
+        String form_a_largest_number_from_given_array = String.join("", arrFormLargestNumber);
+        // Print the result
+        System.out.println("Q22: form_a_largest_number_from_given_array:: " + form_a_largest_number_from_given_array);
+        // or
+        String str = "";
+        for (String s : arrFormLargestNumber) {
+            str = str + s;
+        }
+        System.out.println("form_a_largest_number_from_given_array1:: " + str);
+
+        // Q 23 Remove special character from given String s = "CloudTech#$@!";
+        // OP: Special character removed: CloudTech specialCharacterRemovedCount: 4
+
+        String s = "CloudTech#$@!";
+        // Remove special characters using replaceAll()
+        String resultT = s.replaceAll("[^a-zA-Z0-9]", "");
+
+        // Print the result
+        System.out.println("Q23: String after removing special characters:: " + resultT);
+        //or
+        String stringAfterRemovedSpecialCharacters = "";
+        int specialCharacterRemovedCount = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isLetter(s.charAt(i)) && !Character.isDigit(s.charAt(i)) && !Character.isWhitespace(s.charAt(i))) {
+                specialCharacterRemovedCount = specialCharacterRemovedCount + 1;
+            } else {
+                stringAfterRemovedSpecialCharacters = stringAfterRemovedSpecialCharacters + s.charAt(i);
+            }
+        }
+        if (specialCharacterRemovedCount == 0) {
+            System.out.println("There is no special character found");
+        } else {
+            System.out.println("Special character removed:: " + stringAfterRemovedSpecialCharacters);
+            System.out.println("specialCharacterRemovedCount:: " + specialCharacterRemovedCount);
+        }
+
+        // Q24 Check rotation of String
+        // ABCD CDAB here string rotation is true.
+        String s1 = "ABCD";
+        String s2 = "CDAB";
+        if (s1.length() == s2.length() && (s1 + s2).indexOf(s2) != -1) {
+            System.out.println("Q24: String rotation is present");
+        } else {
+            System.out.println("Q24: String rotation is not present");
+        }
+
+        String start = "123456";
+        String mid = "156";
+        if (start.length() == mid.length() && (start + mid).indexOf(mid) != 1) {
+            System.out.println("Q24: String rotation is present");
+        } else {
+            System.out.println("Q24: String rotation is not present");
+        }
+
+        // Q25 Find missing number from given array op:5
+        int arrMissingNumber[] = new int[]{1, 2, 3, 4, 6, 7, 8, 9, 10};
+        // Calculate the total sum of numbers from 1 to 10
+        int n = 10;
+        int totalSum = (n * (n + 1)) / 2;
+        // Calculate the sum of elements in the given array
+        int arraySum = 0;
+        for (int i = 0; i < arrMissingNumber.length; i++) {
+            arraySum += arrMissingNumber[i];
+        }
+        // The missing number is the difference between the total sum and the array sum
+        int missingNumber = totalSum - arraySum;
+        // Print the missing number
+        System.out.println("Q25: The missing number is: " + missingNumber);
+        int sumOfAllElementsJava8 = Arrays.stream(arrMissingNumber).sum();
+        System.out.println("The missing number is using Java8:: " + (totalSum - sumOfAllElementsJava8));
+
+        // Q 26 Prime Numbers
+        // e.g. prime numbers are 2, 3, 5, 7, and so on.
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.PrimeNumbers.java
+
+        // Q 27 Find vowels count in given string.
+        //String vowelsString = "Naveen AutomationLabs";
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.FindOwelsAndCountInGivenString.java
+
+        // Q 28 Find given string is Palindrome or not?
+        String palindromStr = "aba aba aba";
+
     }
 
 }
