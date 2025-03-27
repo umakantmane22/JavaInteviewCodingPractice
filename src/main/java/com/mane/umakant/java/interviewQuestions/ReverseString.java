@@ -1,4 +1,4 @@
-package com.mane.umakant.java8.javatechie.interviewQuestions;
+package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
 import java.util.Collections;

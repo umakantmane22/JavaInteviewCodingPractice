@@ -1,8 +1,8 @@
-package com.mane.umakant.java8.javatechie.interviewQuestions;
+package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
 
-public class AarraySameOrNot {
+public class ArraySameOrNot {
     public static void main(String a[]){
         //Q30:  compare two different array is same or not. Order of element is no matter
         int[] arrAccenture1 = { 3, 2, 5, 7 };

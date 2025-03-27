@@ -1,4 +1,4 @@
-package com.mane.umakant.java8.javatechie.interviewQuestions;
+package com.mane.umakant.java.interviewQuestions;
 
 import java.util.*;
 import java.util.function.Function;
@@ -394,7 +394,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("second_min_element1: " + second_min_element);
 
         //Q21:  find NthHighestSalaryDemo from given map
-        //refer package com.mane.umakant.java8.NthHighestSalaryInMap.NthHighestSalaryInMap.java
+        //refer com.mane.umakant.java8.NthHighestSalaryInMap.NthHighestSalaryInMap.java
 
         // Q22 form a largest number from given array.
         String arrFormLargestNumber[] = {"1", "34", "3", "98", "9", "76", "45", "4"};
@@ -474,15 +474,15 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q 26 Prime Numbers
         // e.g. prime numbers are 2, 3, 5, 7, and so on.
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.PrimeNumbers.java
+        // refer com.mane.umakant.java.interviewQuestions.PrimeNumbers.java
 
         // Q 27 Find vowels count in given string.
         //String vowelsString = "Naveen AutomationLabs";
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.FindOwelsAndCountInGivenString.java
+        // refer com.mane.umakant.java.interviewQuestions.FindOwelsAndCountInGivenString.java
 
         // Q 28 Find given string is Palindrome or not?
         String palindromStr = "aba aba aba";
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.Palindrome.java
+        // refer com.mane.umakant.java.interviewQuestions.Palindrome.java
 
         //Q29:  remove perticular character from given string
         // remove c from given string "CloudTech".  op: loudTech
@@ -497,38 +497,38 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("String after removing 'c':: " + result);
 
         //Q30:  compare two different array is same or not. Order of element is no matter
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.AarraySameOrNot.java
+        // refer com.mane.umakant.java.interviewQuestions.ArraySameOrNot.java
 
         // Q31:  from given array sort first even numbers and then odd numbers and show it
         //int[] arrEvenOddOrderInput = { 1, 2, 5, 4, 7, 8, 11, 20 };
         // op: 2 4 8 20 1 5 7 11
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.ArraySortFirstEvenNumbersThenOddNumbersAndShowIt.java
+        // refer com.mane.umakant.java.interviewQuestions.ArraySortFirstEvenNumbersThenOddNumbersAndShowIt.java
 
         // Q32: Write a Java program to count the number of words present in a string
         // input String s = "Sharma is a good player and he is so punctual";
         // op: 10
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.CountTheNumberOfWordsPresentInString.java
+        // refer com.mane.umakant.java.interviewQuestions.CountTheNumberOfWordsPresentInString.java
 
         // Q33: Write a program to find common characters from given two string
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.FindCommonCharactersFromGivenTwoString.java
+        // refer com.mane.umakant.java.interviewQuestions.FindCommonCharactersFromGivenTwoString.java
 
         //Q34: Write a program to find reverse of given string
         // input String start = "123456";
         // OP
         //reverseStringJava7: 654321
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.ReverseString.java
+        // refer com.mane.umakant.java.interviewQuestions.ReverseString.java
 
         //Q35: Write a program to find min and max number from given integer" // op: Optional[1] Optional[9]
         // int number1 = 3912578;
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.MinMaxNumberFromGivenInteger.java
+        // refer com.mane.umakant.java.interviewQuestions.MinMaxNumberFromGivenInteger.java
 
         // Q36 : find occurence of each element from given array
         // input int arr[] = { 1, 90000, 9, 455, 90000, 22, 999, 455, 22, 90000 };
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.OccurenceOfEachElementFromGivenArray.java
+        // refer com.mane.umakant.java.interviewQuestions.OccurenceOfEachElementFromGivenArray.java
 
         //Q37 : find 2nd highest odd occured number");
         int[] arrIntviewQue = {13, 13, 13, 13, 13, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 11, 11, 11, 11, 11, 11, 11};
-        // refer com.mane.umakant.java8.javatechie.interviewQuestions.SecondHighestOddOccuredNumber.java
+        // refer com.mane.umakant.java.interviewQuestions.SecondHighestOddOccuredNumber.java
 
         // Q 38 input as: int arr[]= {10,15,12,11,18,20};
         // Exp output: if we provide input as 15
