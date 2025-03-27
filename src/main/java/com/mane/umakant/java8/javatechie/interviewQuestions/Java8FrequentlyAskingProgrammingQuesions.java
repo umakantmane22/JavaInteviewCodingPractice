@@ -482,7 +482,95 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q 28 Find given string is Palindrome or not?
         String palindromStr = "aba aba aba";
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.Palindrome.java
 
+        //Q29:  remove perticular character from given string
+        // remove c from given string "CloudTech".  op: loudTech
+        String strQ29 = "CloudTech";
+        String repStr = strQ29.replaceAll("C", "");
+        System.out.println("String after removing 'c'::  " + repStr);
+        // or
+        // Remove all occurrences of 'c' (case insensitive)
+        result = strQ29.replace("c", "");
+        result = result.replace("C", "");  // Optional if you want case-sensitive removal
+
+        System.out.println("String after removing 'c':: " + result);
+
+        //Q30:  compare two different array is same or not. Order of element is no matter
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.AarraySameOrNot.java
+
+        // Q31:  from given array sort first even numbers and then odd numbers and show it
+        //int[] arrEvenOddOrderInput = { 1, 2, 5, 4, 7, 8, 11, 20 };
+        // op: 2 4 8 20 1 5 7 11
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.ArraySortFirstEvenNumbersThenOddNumbersAndShowIt.java
+
+        // Q32: Write a Java program to count the number of words present in a string
+        // input String s = "Sharma is a good player and he is so punctual";
+        // op: 10
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.CountTheNumberOfWordsPresentInString.java
+
+        // Q33: Write a program to find common characters from given two string
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.FindCommonCharactersFromGivenTwoString.java
+
+        //Q34: Write a program to find reverse of given string
+        // input String start = "123456";
+        // OP
+        //reverseStringJava7: 654321
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.ReverseString.java
+
+        //Q35: Write a program to find min and max number from given integer" // op: Optional[1] Optional[9]
+        // int number1 = 3912578;
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.MinMaxNumberFromGivenInteger.java
+
+        // Q36 : find occurence of each element from given array
+        // input int arr[] = { 1, 90000, 9, 455, 90000, 22, 999, 455, 22, 90000 };
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.OccurenceOfEachElementFromGivenArray.java
+
+        //Q37 : find 2nd highest odd occured number");
+        int[] arrIntviewQue = {13, 13, 13, 13, 13, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 11, 11, 11, 11, 11, 11, 11};
+        // refer com.mane.umakant.java8.javatechie.interviewQuestions.SecondHighestOddOccuredNumber.java
+
+        // Q 38 input as: int arr[]= {10,15,12,11,18,20};
+        // Exp output: if we provide input as 15
+        // then find below 15 element from given int array
+        // Conditions: 1) Use only one for loop 2) Dont use any exsting API methods.
+        int arrSyne[] = {10, 15, 12, 11, 18, 20, 15};
+        int inputValue = 15;
+        int previousInputValue = 0;
+        for (int i = 1; i < arrSyne.length; i++) {
+            if (arrSyne[i] < inputValue) {
+                if (previousInputValue < arrSyne[i]) {
+                    previousInputValue = arrSyne[i];
+                }
+
+            }
+        }
+        System.out.println("Q38: previousInputValue using java7:: " + previousInputValue);
+        // using Java8
+        Optional<Integer> previousInputValue1 = Arrays.stream(arrSyne).boxed()
+                .sorted(Collections.reverseOrder())
+                .skip(1)
+                .filter(x -> x < inputValue)
+                .findFirst();
+        System.out.println("previousInputValue1 using java8:: " + previousInputValue1);
+
+        // Q 39 Calculate sum of all numbers present in a string. Asked by Epam company
+        String inputEpam = "12abc20yz8";
+        //Output: 12+20+8=40
+        int sum = 0;
+        String tempNumber = "0";
+        for (int i = 0; i < inputEpam.length(); i++) {
+            if (Character.isDigit(inputEpam.charAt(i))) {
+                // System.out.println(inputEpam.charAt(i));
+                tempNumber = tempNumber + inputEpam.charAt(i);
+            } else {
+                sum = sum + Integer.parseInt(tempNumber);
+                tempNumber = "0";
+            }
+        }
+        sum = sum + Integer.parseInt(tempNumber);
+
+        System.out.println("Q39: sum of all numbers present in a string:: " + sum);
     }
 
 }
