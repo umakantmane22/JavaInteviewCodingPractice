@@ -1,0 +1,13 @@
+1-  In Java, method arguments are always passed by value — even when you're dealing with objects.
+    But there's often confusion around this because object references behave a bit differently than primitive types.
+
+2-  Java copies the actual value of the primitive variable into the method.
+
+3-  Java passes the value of the reference, not the actual object.
+    So, the reference is copied, and both references point to the same object.
+
+Summary
+Type::	    Changes Affect Caller?::	Explanation
+Primitive::	❌ No	                    Value is copied
+Object::	✅ Yes                      (fields)	Reference is copied, so internal changes affect original
+Object::	❌                          No (reassignment)	Reassignment doesn’t affect the original reference
