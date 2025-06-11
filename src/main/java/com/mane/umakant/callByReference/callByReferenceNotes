@@ -1,0 +1,11 @@
+1-  In Java, there is no true call by reference — Java is strictly call by value. However, Java can simulate call by reference behavior when working with objects, which often leads to confusion.
+
+✅ Java is Call by Value — Always
+Even when you pass an object to a method, Java passes a copy of the reference (not the actual reference or the object itself). This means:
+You can modify the object's fields inside the method ✅
+But you cannot reassign the object itself in a way that affects the original ❌
+
+🧠 Analogy
+Think of Java passing a copy of a remote control (reference) to a method:
+You can use the remote to change the TV channel (object state).
+But if you replace the remote with a new one, the original remote is unaffected.
