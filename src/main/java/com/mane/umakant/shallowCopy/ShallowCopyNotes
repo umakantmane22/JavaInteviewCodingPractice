@@ -1,0 +1,9 @@
+What Is a Shallow Copy?
+
+1-  Copies the reference of mutable objects, not the object itself.
+2-  Changes in the original affect the copy and vice versa.
+
+When to Use Shallow Copy
+
+1-  When the object graph is simple and immutability isn't a concern.
+2-  When performance is critical and deep copy is too expensive.

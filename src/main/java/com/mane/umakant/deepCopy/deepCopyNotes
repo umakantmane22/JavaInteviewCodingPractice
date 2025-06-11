@@ -1,0 +1,13 @@
+What this example covers:
+1-  Deep copy for:
+    1.1-  Primitives
+    1.2-  Immutable objects (e.g., String)
+    1.3-  Mutable objects (Date, List, custom Address class)
+2-  Copy constructor
+3-  Cloning (optional)
+4-  Preventing side effects of shared references
+
+Summary
+-   Deep copy = full independence between original and clone.
+-   Avoids bugs from shared mutable state.
+-   Best used with copy constructors or serialization (for nested deep cloning).
