@@ -1,0 +1,34 @@
+https://www.youtube.com/watch?v=CYBDq23Uzt0
+
+The final keyword in Java can be applied to variables, methods, and classes, each with different effects. Here's a breakdown of all key scenarios with simple examples:
+
+✅ 1. final Variable
+A final variable cannot
+ be reassigned once initialized.
+
+b) Final Reference Variable
+c) Blank Final Variable
+Must be assigned exactly once, either in constructor or initializer.
+
+d) Static Final Variable
+Constant, shared across all instances.
+
+✅ 2. final Method
+Prevents overriding in subclasses.
+
+✅ 3. final Class
+Prevents inheritance.
+
+✅ 4. final with Loop Variables
+✅ 5. final Parameters
+Used to prevent method parameters from being reassigned.
+
+Summary Table:
+
+| Context           | Behavior                                                      |
+| ----------------- | ------------------------------------------------------------- |
+| Variable          | Cannot be reassigned                                          |
+| Reference         | Cannot point to another object, but object content can change |
+| Method            | Cannot be overridden                                          |
+| Class             | Cannot be subclassed                                          |
+| Constructor Param | Cannot be reassigned inside the method                        |
