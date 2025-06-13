@@ -1,0 +1,27 @@
+https://www.youtube.com/watch?v=TXV0_JhP8pY
+https://www.youtube.com/watch?v=sKV1yfERBgA
+
+An immutable class in Java is a class whose instances cannot be modified after creation. It's especially useful in multithreaded environments, caching, and as keys in hash-based collections like HashMap.
+
+✅ Core Rules to Make a Class Immutable
+Make the class final so it can't be extended.
+Make all fields private and final.
+Don't provide setters.
+Initialize all fields in constructor.
+If fields are mutable objects, return deep copies in getters.
+
+🔸 Example 1: Basic Immutable Class with Primitives
+🔸 Example 2: Immutable Class with Mutable Field (Deep Copy Scenario)
+🔸 Example 3: Immutable Class with Collection
+🔸 Example 4: Using Java 17 record for Immutable Data Class
+record classes are implicitly:
+final
+private final fields
+getters only
+equals(), hashCode(), toString() auto-generated
+
+🔒 Why Use Immutable Classes?
+Thread-safe by default
+Easy to cache and reuse
+Safe to use as map keys
+Avoid accidental state changes
