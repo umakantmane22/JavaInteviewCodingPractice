@@ -1,0 +1,26 @@
+https://www.youtube.com/watch?v=SqDbZOjW1uM
+
+Here’s a detailed breakdown of Singleton in Java with various scenarios and patterns, including thread safety, serialization, reflection protection, and enum-based Singleton (recommended):
+🔹 What is Singleton?
+A design pattern that ensures a class has only one instance, and provides a global access point to it.
+✅ 1. Basic Singleton (Not Thread Safe)
+❌ Not thread-safe. Multiple threads can create multiple instances.
+
+✅ 2. Thread-Safe Singleton (Synchronized)
+✅ Thread-safe, but synchronization causes performance hit.
+
+✅ 3. Double-Checked Locking Singleton (Efficient and Thread-Safe)
+✅ Recommended in multithreaded environments with better performance.
+
+✅ 4. Bill Pugh Singleton (Best for Lazy Initialization)
+✅ Thread-safe, lazy-loaded, and doesn't use synchronization.
+
+✅ 5. Enum Singleton (Best Practice)
+✅ Handles serialization and reflection attack safely.
+✅ JVM ensures only one instance.
+
+✅ 6. Singleton with Serialization Safe
+
+✅ 7. Prevent Singleton from Reflection
+✅ This protects from breaking singleton via reflection.
+
