@@ -1,0 +1,94 @@
+In Java 8, the Predicate<T> interface is a functional interface in java.util.function package.
+It represents a condition (boolean-valued function) of one argument and is typically used for filtering
+or matching logic in Streams.
+
+✅ Basic Syntax
+@FunctionalInterface
+public interface Predicate<T> {
+    boolean test(T t);
+
+    // default methods:
+    default Predicate<T> and(Predicate<? super T> other)
+    default Predicate<T> or(Predicate<? super T> other)
+    default Predicate<T> negate()
+}
+
+🔸 Example 1: Filter even numbers using Predicate
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class PredicateExample1 {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30);
+
+        Predicate<Integer> isEven = num -> num % 2 == 0;
+
+        List<Integer> evenNumbers = numbers.stream()
+                                           .filter(isEven)
+                                           .collect(Collectors.toList());
+
+        System.out.println("Even numbers: " + evenNumbers); // [10, 20, 30]
+    }
+}
+
+🔸 Example 2: Combine Predicates (and, or, negate)
+public class PredicateExample2 {
+    public static void main(String[] args) {
+        Predicate<Integer> isEven = num -> num % 2 == 0;
+        Predicate<Integer> isGreaterThan20 = num -> num > 20;
+
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30, 35);
+
+        // Even AND >20
+        System.out.println("Even and >20:");
+        numbers.stream()
+               .filter(isEven.and(isGreaterThan20))
+               .forEach(System.out::println); // 30
+
+        // NOT even
+        System.out.println("Odd numbers:");
+        numbers.stream()
+               .filter(isEven.negate())
+               .forEach(System.out::println); // 15, 25, 35
+    }
+}
+
+🔸 Example 3: Predicate with Custom Object (Employee Filter)
+class Employee {
+    String name;
+    int age;
+    double salary;
+
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    public String toString() {
+        return name + " - Age: " + age + " - Salary: " + salary;
+    }
+}
+
+public class PredicateCustomObject {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("John", 25, 50000),
+            new Employee("Jane", 30, 60000),
+            new Employee("Alex", 35, 45000)
+        );
+
+        Predicate<Employee> highSalary = emp -> emp.salary > 50000;
+
+        employees.stream()
+                 .filter(highSalary)
+                 .forEach(System.out::println);
+
+    }
+}
+
+🔸 Use Cases of Predicate
+Validations (e.g., non-empty string)
+Stream filtering (filter())
+Conditional checks (removeIf(), anyMatch(), allMatch())

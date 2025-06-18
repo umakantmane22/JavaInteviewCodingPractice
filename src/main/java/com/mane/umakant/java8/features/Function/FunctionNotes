@@ -1,0 +1,75 @@
+In Java 8, the Function<T, R> interface is a functional interface used to represent a function that
+accepts one input argument of type T and produces a result of type R.
+
+🔹 Function Interface - Overview
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+}
+
+T – Input type
+R – Return type
+Method: R apply(T t)
+It also provides default methods like andThen() and compose() for function chaining.
+
+✅ Example 1: Simple Function – Convert String to Integer length
+import java.util.function.Function;
+public class FunctionExample1 {
+    public static void main(String[] args) {
+        Function<String, Integer> stringLengthFunction = s -> s.length();
+        System.out.println(stringLengthFunction.apply("Java")); // Output: 4
+    }
+}
+
+✅ Example 2: Square a number and convert to string
+Function<Integer, Integer> square = n -> n * n;
+Function<Integer, String> toString = n -> "Result: " + n;
+Function<Integer, String> squareAndConvert = square.andThen(toString);
+System.out.println(squareAndConvert.apply(5)); // Output: Result: 25
+
+✅ Example 3: Compose functions (first convert to double, then square)
+Function<String, Integer> parse = s -> Integer.parseInt(s);
+Function<Integer, Integer> square = x -> x * x;
+Function<String, Integer> parseAndSquare = parse.andThen(square);
+System.out.println(parseAndSquare.apply("6")); // Output: 36
+
+🔹 Real-World Use Case: Transform Employee to EmployeeDTO
+class Employee {
+    String name;
+    int salary;
+    Employee(String name, int salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+}
+
+class EmployeeDTO {
+    String name;
+    String info;
+    EmployeeDTO(String name, String info) {
+        this.name = name;
+        this.info = info;
+    }
+
+    public String toString() {
+        return name + " -> " + info;
+    }
+}
+
+public class FunctionExample {
+    public static void main(String[] args) {
+        Function<Employee, EmployeeDTO> converter = e ->
+            new EmployeeDTO(e.name, "Salary: " + e.salary);
+
+        Employee emp = new Employee("John", 50000);
+        System.out.println(converter.apply(emp));
+    }
+}
+
+🔹 Summary
+| Feature           | Description                             |
+| ----------------- | --------------------------------------- |
+| Functional method | `apply(T t)`                            |
+| Purpose           | Transform data from one type to another |
+| Use cases         | Mapping, transforming, chaining         |
+| Common methods    | `apply()`, `andThen()`, `compose()`     |
