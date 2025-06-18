@@ -1,0 +1,95 @@
+✅ What is Comparable?
+Comparable<T> is an interface in java.lang.
+It is used to define the natural ordering of objects in a class.
+You implement Comparable when you want default sorting logic.
+It has one method:
+int compareTo(T o);
+
+🔢 Method Details
+compareTo(T o) returns:
+Negative if current object < given object
+Zero if current object == given object
+Positive if current object > given object
+
+🧾 When to Use Comparable
+When you want a single default sort order for a class.
+Used by:
+    - Collections.sort(list)
+    - Arrays.sort(array)
+
+🧪 Example: Sorting Employees by Age (Default Order)
+Step 1: Create Employee Class that Implements Comparable
+class Employee implements Comparable<Employee> {
+    private String name;
+    private int age;
+    private double salary;
+
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public double getSalary() { return salary; }
+
+    @Override
+    public int compareTo(Employee other) {
+        // Default sorting by age
+        return this.age - other.age;
+    }
+
+    @Override
+    public String toString() {
+        return name + " | Age: " + age + " | Salary: " + salary;
+    }
+}
+
+Step 2: Sort with Collections.sort()
+import java.util.*;
+
+public class ComparableExample {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee("Alice", 30, 50000));
+        employees.add(new Employee("Bob", 25, 60000));
+        employees.add(new Employee("Charlie", 35, 55000));
+
+        System.out.println("Before Sorting:");
+        printList(employees);
+
+        // Will use compareTo from Employee (sort by age)
+        Collections.sort(employees);
+
+        System.out.println("\nAfter Sorting by Age (Default):");
+        printList(employees);
+    }
+
+    private static void printList(List<Employee> list) {
+        for (Employee emp : list) {
+            System.out.println(emp);
+        }
+    }
+}
+
+
+🧠 Output
+Before Sorting:
+Alice | Age: 30 | Salary: 50000.0
+Bob | Age: 25 | Salary: 60000.0
+Charlie | Age: 35 | Salary: 55000.0
+
+After Sorting by Age (Default):
+Bob | Age: 25 | Salary: 60000.0
+Alice | Age: 30 | Salary: 50000.0
+Charlie | Age: 35 | Salary: 55000.0
+
+🆚 Comparable vs Comparator
+| Feature       | Comparable                       | Comparator                           |
+| ------------- | -------------------------------- | ------------------------------------ |
+| Package       | `java.lang`                      | `java.util`                          |
+| Method        | `compareTo(Object o)`            | `compare(Object o1, Object o2)`      |
+| Default Order | Yes                              | No                                   |
+| One or Many?  | Only one natural order per class | Can have multiple sorting strategies |
+| Modification  | Modifies class                   | Doesn’t modify the class             |

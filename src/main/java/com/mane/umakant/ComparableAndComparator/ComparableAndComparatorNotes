@@ -1,0 +1,158 @@
+✅ What is Comparator in Java?
+Comparator<T> is a functional interface used to define custom sorting logic when:
+You don't want or can't modify the class (e.g., third-party or immutable)
+You want multiple sort orders (e.g., sort by name, then by age)
+
+📘 Basic Syntax
+Comparator<T> comparator = (o1, o2) -> // return int (comparison result)
+
+Or using a class:
+class MyComparator implements Comparator<Employee> {
+    public int compare(Employee e1, Employee e2) {
+        return e1.getAge() - e2.getAge(); // Ascending sort
+    }
+}
+
+🧪 Practical Example
+class Employee {
+    private String name;
+    private int age;
+    private double salary;
+
+    // Constructor, getters, toString...
+}
+
+1️⃣ Sort by Age (Ascending)
+employees.sort(Comparator.comparingInt(Employee::getAge));
+
+2️⃣ Sort by Name (Descending)
+employees.sort(Comparator.comparing(Employee::getName).reversed());
+
+3️⃣ Multi-Level Sort: Age → Name → Salary
+employees.sort(
+    Comparator.comparingInt(Employee::getAge)
+              .thenComparing(Employee::getName)
+              .thenComparingDouble(Employee::getSalary)
+);
+
+🔁 Difference Between Comparable vs Comparator
+| Feature          | `Comparable`          | `Comparator`                    |
+| ---------------- | --------------------- | ------------------------------- |
+| Package          | `java.lang`           | `java.util`                     |
+| Interface Method | `compareTo(Object o)` | `compare(Object o1, Object o2)` |
+| Modifies Class?  | Yes                   | No                              |
+| Sorting Logic    | Natural ordering      | Custom or multiple ordering     |
+| Used For         | Default sorting       | Sorting outside the class       |
+
+💡 Comparator Using Java 8 Features
+Comparator<Employee> comp = Comparator
+    .comparing(Employee::getAge)
+    .thenComparing(Employee::getName)
+    .reversed(); // Entire sort order reversed
+
+📦 Built-in Methods of Comparator
+| Method                         | Description                           |
+| ------------------------------ | ------------------------------------- |
+| `comparing()`                  | Creates a comparator by key extractor |
+| `thenComparing()`              | Adds secondary comparison             |
+| `reversed()`                   | Reverses the current sort order       |
+| `nullsFirst()` / `nullsLast()` | Handles `null` values gracefully      |
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+✅ What is Comparable?
+Comparable<T> is an interface in java.lang.
+It is used to define the natural ordering of objects in a class.
+You implement Comparable when you want default sorting logic.
+It has one method:
+int compareTo(T o);
+
+🔢 Method Details
+compareTo(T o) returns:
+Negative if current object < given object
+Zero if current object == given object
+Positive if current object > given object
+
+🧾 When to Use Comparable
+When you want a single default sort order for a class.
+Used by:
+    - Collections.sort(list)
+    - Arrays.sort(array)
+
+🧪 Example: Sorting Employees by Age (Default Order)
+Step 1: Create Employee Class that Implements Comparable
+class Employee implements Comparable<Employee> {
+    private String name;
+    private int age;
+    private double salary;
+
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public double getSalary() { return salary; }
+
+    @Override
+    public int compareTo(Employee other) {
+        // Default sorting by age
+        return this.age - other.age;
+    }
+
+    @Override
+    public String toString() {
+        return name + " | Age: " + age + " | Salary: " + salary;
+    }
+}
+
+Step 2: Sort with Collections.sort()
+import java.util.*;
+
+public class ComparableExample {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee("Alice", 30, 50000));
+        employees.add(new Employee("Bob", 25, 60000));
+        employees.add(new Employee("Charlie", 35, 55000));
+
+        System.out.println("Before Sorting:");
+        printList(employees);
+
+        // Will use compareTo from Employee (sort by age)
+        Collections.sort(employees);
+
+        System.out.println("\nAfter Sorting by Age (Default):");
+        printList(employees);
+    }
+
+    private static void printList(List<Employee> list) {
+        for (Employee emp : list) {
+            System.out.println(emp);
+        }
+    }
+}
+
+
+🧠 Output
+Before Sorting:
+Alice | Age: 30 | Salary: 50000.0
+Bob | Age: 25 | Salary: 60000.0
+Charlie | Age: 35 | Salary: 55000.0
+
+After Sorting by Age (Default):
+Bob | Age: 25 | Salary: 60000.0
+Alice | Age: 30 | Salary: 50000.0
+Charlie | Age: 35 | Salary: 55000.0
+
+🆚 Comparable vs Comparator
+| Feature       | Comparable                       | Comparator                           |
+| ------------- | -------------------------------- | ------------------------------------ |
+| Package       | `java.lang`                      | `java.util`                          |
+| Method        | `compareTo(Object o)`            | `compare(Object o1, Object o2)`      |
+| Default Order | Yes                              | No                                   |
+| One or Many?  | Only one natural order per class | Can have multiple sorting strategies |
+| Modification  | Modifies class                   | Doesn’t modify the class             |
