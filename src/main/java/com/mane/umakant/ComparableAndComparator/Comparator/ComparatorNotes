@@ -1,0 +1,59 @@
+✅ What is Comparator in Java?
+Comparator<T> is a functional interface used to define custom sorting logic when:
+You don't want or can't modify the class (e.g., third-party or immutable)
+You want multiple sort orders (e.g., sort by name, then by age)
+
+📘 Basic Syntax
+Comparator<T> comparator = (o1, o2) -> // return int (comparison result)
+
+Or using a class:
+class MyComparator implements Comparator<Employee> {
+    public int compare(Employee e1, Employee e2) {
+        return e1.getAge() - e2.getAge(); // Ascending sort
+    }
+}
+
+🧪 Practical Example
+class Employee {
+    private String name;
+    private int age;
+    private double salary;
+
+    // Constructor, getters, toString...
+}
+
+1️⃣ Sort by Age (Ascending)
+employees.sort(Comparator.comparingInt(Employee::getAge));
+
+2️⃣ Sort by Name (Descending)
+employees.sort(Comparator.comparing(Employee::getName).reversed());
+
+3️⃣ Multi-Level Sort: Age → Name → Salary
+employees.sort(
+    Comparator.comparingInt(Employee::getAge)
+              .thenComparing(Employee::getName)
+              .thenComparingDouble(Employee::getSalary)
+);
+
+🔁 Difference Between Comparable vs Comparator
+| Feature          | `Comparable`          | `Comparator`                    |
+| ---------------- | --------------------- | ------------------------------- |
+| Package          | `java.lang`           | `java.util`                     |
+| Interface Method | `compareTo(Object o)` | `compare(Object o1, Object o2)` |
+| Modifies Class?  | Yes                   | No                              |
+| Sorting Logic    | Natural ordering      | Custom or multiple ordering     |
+| Used For         | Default sorting       | Sorting outside the class       |
+
+💡 Comparator Using Java 8 Features
+Comparator<Employee> comp = Comparator
+    .comparing(Employee::getAge)
+    .thenComparing(Employee::getName)
+    .reversed(); // Entire sort order reversed
+
+📦 Built-in Methods of Comparator
+| Method                         | Description                           |
+| ------------------------------ | ------------------------------------- |
+| `comparing()`                  | Creates a comparator by key extractor |
+| `thenComparing()`              | Adds secondary comparison             |
+| `reversed()`                   | Reverses the current sort order       |
+| `nullsFirst()` / `nullsLast()` | Handles `null` values gracefully      |
