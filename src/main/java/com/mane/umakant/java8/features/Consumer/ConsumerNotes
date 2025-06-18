@@ -1,0 +1,83 @@
+In Java 8, the Consumer<T> interface is a functional interface that represents an operation that takes a single input
+argument and returns no result. It is generally used to perform side effects like printing, logging, updating, etc.
+
+🔹 Consumer<T> Interface – Definition
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+}
+
+T → The type of the input
+accept(T t) → Performs the operation on the given argument
+andThen(Consumer after) → Chains consumers to run in sequence
+
+✅ Basic Example: Print a string
+import java.util.function.Consumer;
+public class ConsumerExample {
+    public static void main(String[] args) {
+        Consumer<String> printConsumer = str -> System.out.println("Hello, " + str);
+        printConsumer.accept("Java"); // Output: Hello, Java
+    }
+}
+
+✅ Example: Consumer with a list
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+public class ListConsumer {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("John", "Jane", "Jack");
+
+        Consumer<String> printName = name -> System.out.println("Name: " + name);
+        names.forEach(printName);
+    }
+}
+
+✅ Example: Chaining Consumers using andThen()
+Consumer<String> c1 = s -> System.out.println("Upper: " + s.toUpperCase());
+Consumer<String> c2 = s -> System.out.println("Lower: " + s.toLowerCase());
+Consumer<String> combined = c1.andThen(c2);
+combined.accept("Java8");
+
+// Output:
+// Upper: JAVA8
+// Lower: java8
+
+
+🔹 Real-World Example: Update Employee Bonus
+class Employee {
+    String name;
+    double salary;
+
+    Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public String toString() {
+        return name + " => " + salary;
+    }
+}
+
+public class ConsumerEmployeeExample {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("Alice", 50000),
+            new Employee("Bob", 60000)
+        );
+
+        Consumer<Employee> giveBonus = emp -> emp.salary += 5000;
+        employees.forEach(giveBonus);
+        employees.forEach(System.out::println);
+    }
+}| Feature          | Description                           |
+ | ---------------- | ------------------------------------- |
+ | Interface        | `Consumer<T>`                         |
+ | Method           | `void accept(T t)`                    |
+ | Purpose          | Consumes input, performs side effects |
+ | Return value     | None                                  |
+ | Chaining         | `andThen()`                           |
+ | Common Use Cases | Printing, logging, modifying objects  |
+
+
+🔹 Summary Table

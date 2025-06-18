@@ -1,0 +1,79 @@
+In Java 8, the Supplier<T> interface is a functional interface that represents a supplier of results.
+Unlike Consumer or Function, it takes no input and returns a value of type T.
+
+🔹 Supplier Interface – Definition
+@FunctionalInterface
+public interface Supplier<T> {
+    T get();
+}
+
+T – Type of the result
+get() – Returns a result of type T
+No input parameters
+
+✅ When to Use Supplier<T>
+To generate or fetch values lazily
+To delay execution until needed
+For random generation, object creation, or default value supply
+
+✅ Example 1: Supply a string
+import java.util.function.Supplier;
+public class SupplierExample {
+    public static void main(String[] args) {
+        Supplier<String> supplyHello = () -> "Hello from Supplier!";
+        System.out.println(supplyHello.get());
+    }
+}
+
+✅ Example 2: Generate random numbers
+import java.util.function.Supplier;
+import java.util.Random;
+public class RandomSupplier {
+    public static void main(String[] args) {
+        Supplier<Integer> randomSupplier = () -> new Random().nextInt(100); // 0 to 99
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(randomSupplier.get());
+        }
+    }
+}
+
+✅ Example 3: Lazy object initialization
+import java.util.function.Supplier;
+class ExpensiveObject {
+    public ExpensiveObject() {
+        System.out.println("Object created!");
+    }
+
+    public String toString() {
+        return "I’m heavy to create!";
+    }
+}
+
+public class LazyInitExample {
+    public static void main(String[] args) {
+        Supplier<ExpensiveObject> objectSupplier = () -> new ExpensiveObject();
+
+        System.out.println("Before calling get()");
+        ExpensiveObject obj = objectSupplier.get(); // Lazy init here
+        System.out.println("After calling get(): " + obj);
+    }
+}
+
+🔹 Summary Table
+| Feature           | Description                  |
+| ----------------- | ---------------------------- |
+| Interface         | `Supplier<T>`                |
+| Functional Method | `T get()`                    |
+| Input             | None                         |
+| Output            | Returns a value of type T    |
+| Use Case          | Lazy loading, default values |
+
+
+🔸 Comparison with Others
+| Interface   | Input | Output | Use Case                        |
+| ----------- | ----- | ------ | ------------------------------- |
+| `Function`  | ✅     | ✅      | Transforming values             |
+| `Predicate` | ✅     | ✅      | Testing conditions              |
+| `Consumer`  | ✅     | ❌      | Consuming values (side-effects) |
+| `Supplier`  | ❌     | ✅      | Supplying/generating values     |
