@@ -11,3 +11,21 @@ Summary
 -   Deep copy = full independence between original and clone.
 -   Avoids bugs from shared mutable state.
 -   Best used with copy constructors or serialization (for nested deep cloning).
+
+🔹 What Is Deep Copy?
+A deep copy means creating a completely independent clone of an object along with all nested objects.
+Any changes made to the copied object or its nested fields do not affect the original object.
+In contrast, a shallow copy just copies references of nested objects (not their content).
+
+🔸 Why Deep Copy?
+Needed when objects contain mutable nested objects
+Avoids unexpected side effects (e.g., modifying one affects the other)
+Used in cloning, caching, undo operations, etc.
+
+🔄 Deep Copy vs Shallow Copy
+| Aspect            | Shallow Copy                 | Deep Copy                                |
+| ----------------- | ---------------------------- | ---------------------------------------- |
+| Field Copying     | Copies object and references | Copies object **and** referenced objects |
+| Nested Objects    | Still shared                 | New independent copies                   |
+| Changes in Nested | Affects both                 | Doesn’t affect the other                 |
+| Complexity        | Simple                       | More complex                             |

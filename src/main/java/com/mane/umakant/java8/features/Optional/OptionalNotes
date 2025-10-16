@@ -1,0 +1,126 @@
+✅ What is Optional in Java 8?
+Optional<T> is a container object that may or may not contain a non-null value.
+It was introduced to avoid NullPointerException and improve code readability and safety.
+
+🔹 Why Optional?
+Traditional null checks:
+if (user != null && user.getAddress() != null) {
+   return user.getAddress().getCity();
+}
+
+With Optional:
+Optional.ofNullable(user)
+        .map(User::getAddress)
+        .map(Address::getCity)
+        .orElse("Unknown");
+
+✅ No null checks
+✅ Cleaner and safer code
+
+Common Interview-Level Usage & API
+| Method                | Description                                              |
+| --------------------- | -------------------------------------------------------- |
+| `empty()`             | Creates empty `Optional`                                 |
+| `of(value)`           | Creates non-null `Optional` (throws NPE if null)         |
+| `ofNullable(value)`   | Creates Optional that may be null                        |
+| `isPresent()`         | Returns `true` if value is present                       |
+| `ifPresent(Consumer)` | Executes action if value is present                      |
+| `get()`               | Returns value (throws `NoSuchElementException` if empty) |
+| `orElse(default)`     | Returns value if present, else default                   |
+| `orElseGet(Supplier)` | Lazy version of `orElse()`                               |
+| `orElseThrow()`       | Throws exception if value is missing                     |
+| `map(Function)`       | Applies transformation if value exists                   |
+| `flatMap(Function)`   | Like `map` but avoids nested Optionals                   |
+| `filter(Predicate)`   | Filters value using predicate                            |
+
+
+✅ Real-World Example
+class Address {
+    private String city;
+    public Address(String city) { this.city = city; }
+    public String getCity() { return city; }
+}
+
+class User {
+    private Address address;
+    public User(Address address) { this.address = address; }
+    public Optional<Address> getAddress() {
+        return Optional.ofNullable(address);
+    }
+}
+
+public class OptionalDemo {
+    public static void main(String[] args) {
+        User user = new User(null);
+
+        String city = Optional.ofNullable(user)
+                .flatMap(User::getAddress)
+                .map(Address::getCity)
+                .orElse("Unknown");
+
+        System.out.println(city); // Output: Unknown
+    }
+}
+
+✅ Best Practices
+✔️ Do:
+Use Optional only for return types, not for method parameters or fields
+Use map() / flatMap() to chain transformations
+Use orElseGet() when the default value is expensive to compute
+Use ifPresentOrElse() (Java 9+) for side effects
+
+❌ Don’t:
+Don’t use Optional.get() without checking isPresent()
+Don’t use Optional as a field in entity classes (especially JPA/Hibernate)
+Don’t overuse Optional, especially in performance-sensitive code
+
+🔍 Advanced Interview Q&A
+🔸 Q1: How does Optional help avoid NullPointerException?
+It wraps nullable values and forces the developer to consciously handle the absence of values, using safe methods like orElse, orElseThrow, map, etc.
+
+🔸 Q2: Difference between orElse() and orElseGet()?
+String result = Optional.of("Java").orElse(getFallback());    // always calls getFallback()
+String result = Optional.of("Java").orElseGet(() -> getFallback()); // only calls when empty
+✅ orElseGet() is lazy, orElse() is eager — useful in performance-sensitive code.
+
+🔸 Q3: When to use map() vs flatMap()?
+Use map() when the return type is a value:
+optionalUser.map(User::getName)   // returns Optional<String>
+
+Use flatMap() when the function returns another Optional:
+optionalUser.flatMap(User::getAddress) // returns Optional<Address>
+
+🔸 Q4: Can Optional be used as method parameters?
+No — bad practice.
+It adds unnecessary complexity and doesn’t eliminate the null check.
+Use @NonNull validation instead.
+
+🔸 Q5: How does Optional improve functional programming in Java?
+Optional encourages a functional approach:
+Eliminates nulls via map, filter, flatMap
+Enables declarative logic instead of imperative if-else
+Works well with streams and other functional interfaces
+
+✅ Optional with Streams
+Optional<Integer> max = Stream.of(1, 2, 3, 4)
+                              .max(Integer::compareTo);
+max.ifPresent(System.out::println);
+
+✅ Summary
+| Feature             | Benefit                          |
+| ------------------- | -------------------------------- |
+| Type-safe wrapper   | Avoids null checks               |
+| Declarative methods | Functional programming friendly  |
+| Chaining support    | With `map`, `flatMap`, etc.      |
+| Safer API design    | Encourages handling missing data |
+
+
+✅ Optional.empty() Example
+The empty() method returns an empty Optional instance — that is, an Optional that contains no value
+(i.e., it's like null, but safer).
+
+✅ Why Optional.empty() is Useful in Real Apps
+Replaces return null in methods
+Prevents NullPointerException
+Makes caller handle "not found" case explicitly
+Ideal in service/repo methods that might not find a value (e.g., DB lookups, cache fetches, config checks)
