@@ -11,6 +11,18 @@ public class SecondHighestOddOccuredNumber {
         int[] inputArray = {13,13,13,13,13,1,2,2,3,3,3,4,4,4,5,5,5,6,6,7,7,11,11,11,11,11,11,11};
       // op:  occurrenceMap: {1=1, 3=3, 5=3, 7=2, 11=7, 13=5}
        //op: The 2nd highest odd occurred number is: 13
+        /*
+
+        | Odd Number | Frequency / occurrences|
+        | ---------- | --------- |
+        | 1          | 1         |
+        | 3          | 3         |
+        | 5          | 3         |
+        | 7          | 2         |
+        | 11         | 7         |
+        | 13         | 5         |
+
+         */
         // Create a map to store the occurrence of each odd number
         Map<Integer, Integer> occurrenceMap = new HashMap<>();
         // Loop through the array to populate the map with odd numbers and their occurrence counts
@@ -49,5 +61,16 @@ public class SecondHighestOddOccuredNumber {
                 .skip(1)
                 .findFirst();
         System.out.println("secondHighestOddOccuredNumber using Java8:: "+secondHighestOddOccuredNumber);
+
+        Optional<Integer> secondHighestOddOccuredNumber2 =Arrays.stream(inputArray).boxed()
+                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                .entrySet().stream()
+                .filter(v->v.getValue()%2!=0)
+                .sorted((x,y)->(int)(y.getValue() - x.getValue()))
+                .distinct()
+                .skip(1)
+                .map(Map.Entry::getKey)
+                .findFirst();
+        System.out.println("secondHighestOddOccuredNumber2: "+secondHighestOddOccuredNumber2);
     }
 }

@@ -11,6 +11,8 @@ public class FindOwelsAndCountInGivenString {
         String vowelsString = "Naveen AutomationLabs";
 
         List<Character> vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
+
+
         // Find and print all vowels from the string
         String vowelsInString = vowelsString.chars()  // Convert the string to an IntStream
                 .mapToObj(c -> (char) c)  // Convert each int to char
@@ -19,6 +21,13 @@ public class FindOwelsAndCountInGivenString {
                 .collect(Collectors.joining());  // Collect the result as a single string
 
         System.out.println("Vowels in the string: " + vowelsInString);
+
+        String  anotherWay=Arrays.stream(vowelsString.split(""))
+                .map(s -> s.charAt(0))// convert String → char
+                .filter(vowels::contains)// now matches Character
+                .map(String::valueOf)
+                .collect(Collectors.joining());
+        System.out.println("anotherWay:: "+anotherWay);
 
         // sub que:  Find vowels with there count or occurence
         Map<Character, Long> vowels_with_there_count = vowelsString.chars()

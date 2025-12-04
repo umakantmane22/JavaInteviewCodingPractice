@@ -1,6 +1,8 @@
 package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ArraySameOrNot {
     public static void main(String a[]){
@@ -31,5 +33,11 @@ public class ArraySameOrNot {
         }else {
             System.out.println("Q30: array not same");
         }
+        //or
+        Set<Integer> set1=new HashSet<>();
+        Set<Integer> set2=new HashSet<>();
+        for(int n :arrAccenture1) set1.add(n);
+        for(int n:arrAccenture2) set2.add(n);
+        System.out.println("Arrays contain same unique elements? " + set1.equals(set2));
     }
 }

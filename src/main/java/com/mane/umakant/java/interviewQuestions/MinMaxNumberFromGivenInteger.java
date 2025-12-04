@@ -1,6 +1,7 @@
 package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -30,11 +31,26 @@ public class MinMaxNumberFromGivenInteger {
         // Output the results
         System.out.println("Min Digit: " + min);
         System.out.println("Max Digit: " + max);
+        System.out.println("Updated value in number variable: " + number);
 
         // using Java8
         Optional<String> minNumber = Arrays.stream(String.valueOf(oldNumber).split("")).min(Comparator.comparing(Integer::valueOf));
         System.out.println("minNumber:: "+minNumber);
         String maxNumber=Arrays.stream(String.valueOf(oldNumber).split("")).max(Comparator.comparing(Integer::valueOf)).get();
         System.out.println("maxNumber:: "+maxNumber);
+
+        int minJava8=Arrays.stream(String.valueOf(oldNumber).split(""))
+                .map(Integer::valueOf)
+                .sorted()
+                .findFirst().get();
+
+        int maxjava8=Arrays.stream(String.valueOf(oldNumber).split(""))
+                .map(Integer::valueOf)
+                .sorted(Collections.reverseOrder())
+                .findFirst().get();
+
+        System.out.println("minJava8: "+minJava8+" maxjava8: "+maxjava8);
+
+
     }
 }
