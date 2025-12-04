@@ -2,6 +2,8 @@ package com.mane.umakant.java.interviewQuestions;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,8 +25,15 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         //       System.out.println("Character: " + character + ", Occurrence: " + count));
         System.out.println("Q1:: characterCount:: " + characterCount);
 
+        // Another way which I have habitual
+
+        Map<String, Long> characterCountString = Arrays.stream(input.split(""))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println("Q1:: characterCountString:: " + characterCountString);
+
+
         // Q2- Java program to find all duplicates elements from a given string
-        // String input = "ilovejavatechie"; [a, e, v, i]
+        // String input = "ilovejavatechie";  output [a, e, v, i]
         List<Map.Entry<Character, Long>> duplicatesElementsWithCount = input.chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
@@ -50,7 +59,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
                 .filter(x -> x.getValue() == 1)
                 .collect(Collectors.toSet());
         System.out.println("Q3:: uniqueElementWithCount:: " + uniqueElementWithCount);
-        Set<Object> uniqueElement = input.chars()
+        Set<Character> uniqueElement = input.chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
@@ -60,7 +69,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("uniqueElement:: " + uniqueElement);
 
         // Q4: find first non repeated character from a given string
-        // e.g. String input = "ilovejavatechie";  output:: 0
+        // e.g. String input = "ilovejavatechie";  output:: l
         List<Character> first_non_repeated_characterWithCount = input.chars()
                 .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy
@@ -96,69 +105,9 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("Q5:: first_repeated_character:: " + first_repeated_character);
 
         // Q6: find second highest number from given array.
-        // input as int[] numbers={5,9,11,2,8,21,1}  op: 11
-        int[] numbers = {5, 9, 11, 2, 8, 21, 1};
-        // Find the second highest number
-        Optional<Integer> secondHighestNumber = Arrays.stream(numbers)               // Convert the array to an IntStream
-                .boxed()                                         // Convert IntStream to Stream<Integer>
-                .sorted((a, b) -> b - a)                         // Sort in descending order
-                .distinct()                                      // Remove duplicates
-                .skip(1)                                         // Skip the highest number
-                .findFirst();                                   // Find the second highest number
-
-        System.out.println("Q6:: " + secondHighestNumber);
-
-        // find second highest and lowest number. op: secHigh: 30, secLow: 0
-        List<Integer> maxMinNumbers20 = Arrays.asList(-1, 0, 3, 10, 20, 30, 15, 1, 13, 1, 2, 2, 10, 40, 19, 3, 40);
-        int secHigh = maxMinNumbers20.stream().sorted(Collections.reverseOrder()).distinct().skip(1).findFirst().get();
-        System.out.println("secHigh:: " + secHigh);
-        int secHigh1 = maxMinNumbers20.stream()
-                .sorted((a, b) -> b - a)
-                .distinct().skip(1).findFirst().get();
-        System.out.println("secHigh1:: " + secHigh1);
-
-        int secLow = maxMinNumbers20.stream()
-                .sorted().distinct().skip(1).findFirst().get();
-        System.out.println("secLow:: " + secLow);
-        int secLow1 = maxMinNumbers20.stream()
-                .sorted((a, b) -> a - b).distinct().skip(1).findFirst().get();
-        System.out.println("secLow1:: " + secLow1);
-
-        // Variables to hold the highest and second highest numbers
-        int highest = Integer.MIN_VALUE;
-        int secondHighest = Integer.MIN_VALUE;
-        // Iterate through the list
-        for (int number : maxMinNumbers20) {
-            // If the current number is greater than the highest, update both highest and second highest
-            if (number > highest) {
-                secondHighest = highest;
-                highest = number;
-            }
-            // If the current number is less than the highest but greater than second highest
-            else if (number > secondHighest && number < highest) {
-                secondHighest = number;
-            }
-        }
-        // Check if secondHighest is updated
-        if (secondHighest == Integer.MIN_VALUE) {
-            System.out.println("There is no second highest number.");
-        } else {
-            System.out.println("Second highest number: " + secondHighest);
-        }
-        // using java 7
-        Integer[] arr = {1, 2, 5, 6, 3, 2};
-        // OP: 5
-        int temp = 0;
-        for (int i = 0; i < arr.length; i++)
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] > arr[j]) {
-                    temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        int secodHighestNumJava7 = arr[arr.length - 2];
-        System.out.println("secodHighestNumJava7:: " + secodHighestNumJava7);
+        // refer com.mane.umakant.java.interviewQuestions.SecondHighestNumber.java
+        //int[] primitiveArray = {5, 9, 11, 2, 8, 21, 21}; //op: 11
+        //Integer[] nonPrimitiveArray = {1, 2, 5, 6, 3, 2, 6};  // OP: 5
 
         // Q7: find largest string from given array
         // input: String[] strArray={"java","techie","springboot","microservices"}
@@ -189,6 +138,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q8: Find all element from array who start with 1
         // reuse int[] numbers= {5,9,11,2,8,21,1}; op: [11, 1]
+        int[] numbers = {5, 9, 11, 2, 8, 21, 1};
         List<Integer> all_element_from_array_who_start_with_1 = Arrays.stream(numbers)
                 .mapToObj(String::valueOf)
                 .filter(s -> s.startsWith("1"))
@@ -215,7 +165,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("Q9:: join_given_string_with- " + result);
         // or
         String joinWithDelimiter = String.join("-", nos);
-        System.out.println("join_given_string_with1-: " + joinWithDelimiter);
+        System.out.println("join_given_string_witmaxMinNumbers20h1-: " + joinWithDelimiter);
 
         // Q 10: skip and limit example(2-9)
         // print value from 3 to 8
@@ -326,9 +276,9 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("duplicate_elements1:: " + secondWay);
 
         Set<Integer> dupNum = new HashSet<>();
-        Set<Integer> thirsWay = elementsList.stream()
+        Set<Integer> thirdWay = elementsList.stream()
                 .filter(e -> !dupNum.add(e)).collect(Collectors.toSet());
-        System.out.println("duplicate_elements3:: " + thirsWay);
+        System.out.println("duplicate_elements3:: " + thirdWay);
 
         // Q17 find max and min // op Optional[40] min:: Optional[-1]
         List<Integer> maxMinNumbers = Arrays.asList(-1, 0, 3, 10, 20, 30, 15, 1, 13, 1, 2, 2, 10, 40, 19, 3, 40);
@@ -439,23 +389,198 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q24 Check rotation of String
         // ABCD CDAB here string rotation is true.
+        /*
+        First Approch::
+        ✅ Check if s2 is a rotation of s1
+        A string s2 is a rotation of string s1 if and only if:
+        s2 is a substring of (s1 + s1)`
+        Example:
+        s1 = "ABCE" → s1 + s1 = "ABCEABCE"
+        Check if "CDAB" is inside "ABCEABCE" → ❌ (it's not)
+        So CDAB is not a rotation of ABCE.
+        How does .contains() help?
+        .contains(s2) checks if string s2 exists inside (s1 + s1).
+        Case in your example:
+        s1 = "ABCE"
+        s2 = "CDAB"
+        s1 + s1 = "ABCEABCE"
+        Is "CDAB" inside "ABCEABCE"?
+        ❌ No → so .contains() returns false
+
+
+        Second Approch:
+        STEP 1 — Understanding the Problem
+        We want to check:
+        👉 Is s2 a rotated version of s1?
+        Example of valid rotations of "ABCE":
+        | Rotation | Explanation       |
+        | -------- | ----------------- |
+        | ABCE     | original          |
+        | BCEA     | rotated left by 1 |
+        | CEAB     | rotated left by 2 |
+        | EABC     | rotated left by 3 |
+
+        A rotation means: characters are shifted circularly.
+
+        🟩 STEP 2 — Check if both strings have same length
+        🟩 STEP 3 — Why (s1 + s1) is used
+        We do:
+        s1 + s1   → "ABCEABCE"
+        This is the key trick.
+        Why does this work?
+        Because all possible rotations of a string appear as substrings of the doubled string.
+        Let’s verify:
+        Doubled string:
+        ABCEABCE
+        Look at its substrings of length 4:
+        ABCE (start at index 0)
+        BCEA (start at index 1)
+        CEAB (start at index 2)
+        EABC (start at index 3)
+        ABCE (start at index 4)
+        These are exactly all rotations of "ABCE".
+        So:
+        👉 If s2 is inside "ABCEABCE", it is a rotation
+        👉 If not, it is not a rotation
+
+        🟩 STEP 4 — Check if s2 exists in doubled string
+        This part:
+        (s1 + s1).indexOf(s2) != -1
+        How does .indexOf() work?
+        Returns index ≥ 0 if substring is found
+        Returns -1 if substring is NOT found
+        So:
+        If s2 exists in "ABCEABCE" → rotation is present
+        If s2 does not exist → rotation is not present
+        Let’s check your exact values:
+        s1 = "ABCE"
+        s2 = "CDAB"
+        s1 + s1 = "ABCEABCE"
+        Is "CDAB" inside "ABCEABCE"?
+        ❌ No
+        So .indexOf("CDAB") returns -1
+        🟩 STEP 5 — Final if-condition
+        Full condition:
+        s1.length() == s2.length()
+        &&
+        (s1 + s1).indexOf(s2) != -1
+        If both are true → it's a rotation.
+        For your inputs:
+        Length: same → ✔️ true
+        Substring found: false → ❌
+        Final result = false
+        🟩 STEP 6 — Output
+        So the program prints:
+        Q24 A: String rotation is not present
+
+        */
         String s1 = "ABCD";
         String s2 = "CDAB";
-        if (s1.length() == s2.length() && (s1 + s2).indexOf(s2) != -1) {
-            System.out.println("Q24: String rotation is present");
+
+        // First Approch:
+        if (s1.length() == s2.length() && (s1 + s1).contains(s2)) {
+            System.out.println("Q24 Approch A: String rotation is present");
         } else {
-            System.out.println("Q24: String rotation is not present");
+            System.out.println("Q24 Approch A: String rotation is not present");
         }
 
-        String start = "123456";
-        String mid = "156";
-        if (start.length() == mid.length() && (start + mid).indexOf(mid) != 1) {
-            System.out.println("Q24: String rotation is present");
+        // Second Approch:
+        if (s1.length() == s2.length() && (s1 + s1).indexOf(s2) != -1) {
+            System.out.println("Q24 Approch B: String rotation is present");
         } else {
-            System.out.println("Q24: String rotation is not present");
+            System.out.println("Q24 Approch B: String rotation is not present");
         }
 
-        // Q25 Find missing number from given array op:5
+        String start = "123456";  //String mid = "345612";
+        String mid = "524136";
+        if (start.length() == mid.length() && (start + start).indexOf(mid) != -1) {
+            System.out.println("Q24 Approch B.1: String rotation is present");
+        } else {
+            System.out.println("Q24 Approch B.1: String rotation is not present");
+        }
+        /*
+        Explanation of above code.
+        ✅ Your Code (Correct Logic)
+        ✔ Length check — correct
+        ✔ Rotation logic using (start + start) — correct
+        ✔ indexOf(mid) != -1 — correct
+        The program is correct.
+        ❌ But the input "524136" is NOT a rotation of "123456"
+        Let’s check.
+        start:
+        1 2 3 4 5 6
+        All valid rotations of "123456":
+        123456
+        234561
+        345612
+        456123
+        561234
+        612345
+        Your mid string:
+        524136  ← this does NOT match any rotation
+        Now check using the logic:
+        start + start = "123456123456"
+        Is "524136" inside "123456123456"?
+        ❌ No.
+        So output is:
+        Q24 Approch B.1: String rotation is not present
+        */
+
+        // Q 24.1 Print All Rotations of a String (Beginner Friendly)
+        String rotationStrInput = "ABCE";
+        for (int i = 0; i < rotationStrInput.length(); i++) {
+            String rotation = rotationStrInput.substring(i) + rotationStrInput.substring(0, i);
+            System.out.println("Q 24.1: All possible rotations:: " + rotation);
+        }
+
+        //✅ Q 24.2. Check Rotation WITHOUT Using contains() or indexOf()
+        boolean isRotation = false;
+
+        for (int j = 0; j < s1.length(); j++) {
+            String rotation = s1.substring(j) + s1.substring(0, j);
+            if (rotation.equals(s2)) {
+                isRotation = true;
+                break;
+            }
+        }
+        System.out.println("Q 24.2: ");
+        System.out.print(isRotation ? "Rotation Present" : "Rotation Not Present");
+        //Q 24 C How to check first string contain all charcter from second string. Take below as input
+        //String first= "123456";
+        //String second= "345";
+        /*Check if every character in second exists inside first.
+        In this case:
+        3 → present
+        4 → present
+        5 → present
+        So result = true
+        */
+        String first = "123456";
+        String second = "345";
+        boolean containsAllChars = true;  // default value = false ❌ 2. Local Variables Have NO Default Value ❌ Compile-time error
+        System.out.println("default value of boolean :: " + containsAllChars);
+        for (char ch : second.toCharArray()) {
+            if (first.indexOf(ch) == -1) {
+                containsAllChars = false; // if any char missing → return false
+            }
+        }
+        if (containsAllChars)
+            System.out.println("Q 24 C:: Yes, every character in second exists inside first");
+        else
+            System.out.println("Q 24 C:: No, every character in second exists inside first");
+        /*
+        Check if the character exists in the first string
+        This is the main logic:
+        if (first.indexOf(ch) == -1)
+        How .indexOf() works:
+        Returns 0 or positive index → character FOUND
+        Returns -1 → character NOT FOUND
+        Example:
+        "123456".indexOf('4') → returns 3
+        "123456".indexOf('9') → returns -1
+                        */
+
+        // Q 25 Find missing number from given array op:5
         int arrMissingNumber[] = new int[]{1, 2, 3, 4, 6, 7, 8, 9, 10};
         // Calculate the total sum of numbers from 1 to 10
         int n = 10;
@@ -497,6 +622,9 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("String after removing 'c':: " + result);
 
         //Q30:  compare two different array is same or not. Order of element is no matter
+        int[] arrAccenture1 = { 3, 2, 5, 7 };
+        int[] arrAccenture2 = { 2, 3, 7, 5 };
+        // op: array same
         // refer com.mane.umakant.java.interviewQuestions.ArraySameOrNot.java
 
         // Q31:  from given array sort first even numbers and then odd numbers and show it
@@ -510,6 +638,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         // refer com.mane.umakant.java.interviewQuestions.CountTheNumberOfWordsPresentInString.java
 
         // Q33: Write a program to find common characters from given two string
+        // input 123456, 162, 21 op: common chars from first 2 string:1,2,6 & from all 3 is: 1,2
         // refer com.mane.umakant.java.interviewQuestions.FindCommonCharactersFromGivenTwoString.java
 
         //Q34: Write a program to find reverse of given string
@@ -524,18 +653,22 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q36 : find occurence of each element from given array
         // input int arr[] = { 1, 90000, 9, 455, 90000, 22, 999, 455, 22, 90000 };
+        // op: {90000=3, 1=1, 22=2, 999=1, 455=2, 9=1}
+        int inputArr[] = {1, 90000, 9, 455, 90000, 22, 999, 455, 22, 90000};
         // refer com.mane.umakant.java.interviewQuestions.OccurenceOfEachElementFromGivenArray.java
 
         //Q37 : find 2nd highest odd occured number");
         int[] arrIntviewQue = {13, 13, 13, 13, 13, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 11, 11, 11, 11, 11, 11, 11};
+        // op:  occurrenceMap: {1=1, 3=3, 5=3, 7=2, 11=7, 13=5}
+        //op: The 2nd highest odd occurred number is: 13
         // refer com.mane.umakant.java.interviewQuestions.SecondHighestOddOccuredNumber.java
 
         // Q 38 input as: int arr[]= {10,15,12,11,18,20};
         // Exp output: if we provide input as 15
         // then find below 15 element from given int array
-        // Conditions: 1) Use only one for loop 2) Dont use any exsting API methods.
+        // Conditions: 1) Use only one for loop 2) Dont use any existing API methods.
         int arrSyne[] = {10, 15, 12, 11, 18, 20, 15};
-        int inputValue = 15;
+        int inputValue = 15;    // op: Optional[12]
         int previousInputValue = 0;
         for (int i = 1; i < arrSyne.length; i++) {
             if (arrSyne[i] < inputValue) {
@@ -571,6 +704,31 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         sum = sum + Integer.parseInt(tempNumber);
 
         System.out.println("Q39: sum of all numbers present in a string:: " + sum);
+
+        // ✅ 2. Regex version (very strong in interview)
+
+        sum = 0;
+        Matcher m = Pattern.compile("\\d+").matcher("12abc20yz8");
+
+        while (m.find()) {
+            sum += Integer.parseInt(m.group());
+        }
+
+        System.out.println("Using Matcher and Pattern:: " + sum); // 40
+
+        // Using Java 8
+
+        IntSummaryStatistics summaryStatistics = Pattern.compile("\\d+").matcher("12abc20yz8")
+                .results()
+                .mapToInt(digit -> Integer.parseInt(digit.group()))
+                .summaryStatistics();
+
+        System.out.println("getSum: " + summaryStatistics.getSum());
+        System.out.println("getAverage: " + summaryStatistics.getAverage());
+        System.out.println("getCount: " + summaryStatistics.getCount());
+        System.out.println("getMax: " + summaryStatistics.getMax());
+        System.out.println("getMin: " + summaryStatistics.getMin());
+
     }
 
 }

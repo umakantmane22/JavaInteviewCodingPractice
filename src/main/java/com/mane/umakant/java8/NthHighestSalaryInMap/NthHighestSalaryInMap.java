@@ -1,6 +1,7 @@
 package com.mane.umakant.java8.NthHighestSalaryInMap;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +49,15 @@ public class NthHighestSalaryInMap {
                 .collect(Collectors.toList())
                 .get(1); // 0=highest,1=second last,2=third last etc
         System.out.println("second_highest_salary_employee:: " + second_highest_salary_employee);
-        System.out.println(
+     /*   System.out.println(
 
                 map2.entrySet().stream()
-                        .collect(Collectors.groupingBy(Entry::getValue, Collectors.mapping(Entry::getKey, Collectors.toList())))
+                        .collect(
+                                Collectors.groupingBy(
+                                        Entry::getValue,
+                                        Collectors.mapping(
+                                                Entry::getKey,
+                                                Collectors.toList())))
                         .entrySet().stream()
                         .sorted(Collections.reverseOrder(Entry.comparingByKey()))
                         .collect(Collectors.toList())
@@ -85,6 +91,7 @@ public class NthHighestSalaryInMap {
                         .collect(Collectors.toList())
                         .get(2) // 2=third highest,
         );
+        */
         // find groupByValue
         Map<Integer, List<Entry<String, Integer>>> groupByValue = map2.entrySet().stream()
                 .collect(Collectors.groupingBy(Entry::getValue));
@@ -93,6 +100,36 @@ public class NthHighestSalaryInMap {
         Map<Integer, List<String>> groupByValueAndNames = map2.entrySet().stream()
                 .collect(Collectors.groupingBy(Entry::getValue, Collectors.mapping(Entry::getKey, Collectors.toList())));
         System.out.println("groupByValueAndNames:: "+groupByValueAndNames);
+
+        // New Approch From ChatGpt
+        // Find the second highest salary employee(s)
+        int secondHighestSalary = map2.values().stream()
+                .sorted(Comparator.reverseOrder())
+                .distinct()
+                .skip(1)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No second highest salary"));
+        List<String> employees = map2.entrySet().stream()
+                .filter(entry -> entry.getValue() == secondHighestSalary)
+                .map(Map.Entry::getKey)
+                .toList();
+        System.out.println("Second highest salary: " + secondHighestSalary);
+        System.out.println("Employees with second highest salary: " + employees);
+        System.out.println("//////////////////////");
+        int secondHighestSalary2 = map2.values().stream()
+                .sorted(Comparator.reverseOrder())
+                .distinct()
+                .skip(1)
+                .findFirst()
+                .orElseThrow();
+
+        List<String> employees2 = map2.entrySet().stream()
+                .filter(e -> e.getValue().equals(secondHighestSalary2))
+                .map(Map.Entry::getKey)
+                .sorted() // optional, sorts names alphabetically
+                .toList();
+
+        System.out.println("secondHighest:: " + secondHighestSalary2 + "=" + employees2);
     }
 
 

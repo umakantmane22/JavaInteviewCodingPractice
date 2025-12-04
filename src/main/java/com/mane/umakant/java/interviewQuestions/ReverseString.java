@@ -43,5 +43,16 @@ public class ReverseString {
                 .collect(Collectors.toList());
 
         System.out.println("reversedUsingJava8:: "+reversedUsingJava8);
+
+        String reversedUsingJava8InStringFormat1=Arrays.stream(inputString.split(""))
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.joining());
+        System.out.println("reversedUsingJava8InStringFormat1:: "+reversedUsingJava8InStringFormat1);
+
+        String reversedUsingJava8InStringFormat2 = inputString.chars().mapToObj(c -> (char) c)
+                .sorted(Collections.reverseOrder())
+                .map(String::valueOf)
+                .collect(Collectors.joining());
+        System.out.println("reversedUsingJava8InStringFormat2:: "+reversedUsingJava8InStringFormat2);
     }
 }
