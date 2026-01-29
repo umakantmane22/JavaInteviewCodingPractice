@@ -15,18 +15,22 @@ public class MinMaxNumberFromGivenInteger {
         int min = 9;  // Maximum possible digit
         int max = 0;  // Minimum possible digit
         // Iterate through each digit without using predefined functions
-        while (number>0){
-            int digit=number % 10; // Extract the last digit
-            // Update min if the current digit is smaller
-            if(digit<min){
-                min=digit;
+        if (number == 0) {
+            min = max = 0;
+        }else {
+            while (number > 0) {
+                int digit = number % 10; // Extract the last digit
+                // Update min if the current digit is smaller
+                if (digit < min) {
+                    min = digit;
+                }
+                // Update max if the current digit is larger
+                if (digit > max) {
+                    max = digit;
+                }
+                // Remove the last digit from the number
+                number = number / 10;
             }
-            // Update max if the current digit is larger
-            if (digit>max){
-                max=digit;
-            }
-            // Remove the last digit from the number
-            number = number / 10;
         }
         // Output the results
         System.out.println("Min Digit: " + min);

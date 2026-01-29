@@ -1,6 +1,7 @@
 https://www.youtube.com/watch?v=CYBDq23Uzt0
 
-The final keyword in Java can be applied to variables, methods, and classes, each with different effects. Here's a breakdown of all key scenarios with simple examples:
+The final keyword in Java can be applied to variables, methods, and classes, each with different effects.
+Here's a breakdown of all key scenarios with simple examples:
 
 ✅ 1. final Variable
 A final variable cannot

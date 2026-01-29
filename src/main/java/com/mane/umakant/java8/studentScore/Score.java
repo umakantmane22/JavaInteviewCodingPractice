@@ -1,8 +1,8 @@
 package com.mane.umakant.java8.studentScore;
 
 public class Score {
-    String subName;
-    double subMarks;
+    private String subName;
+    private double subMarks;
 
     public Score(String subName, double subMarks) {
         this.subName = subName;

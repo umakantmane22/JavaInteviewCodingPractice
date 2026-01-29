@@ -2,6 +2,7 @@ package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -43,5 +44,21 @@ public class OccurenceOfEachElementFromGivenArray {
             }
         }
         System.out.println("map4:: " + map4);
+
+        // below ways are also fine
+
+        Map<Integer, Integer> map5 = new HashMap<>();
+        for (Integer i : inputArr) {
+            if (map5.containsKey(i)) {
+                map5.put(i, map5.get(i) + 1);
+            } else {
+                map5.put(i, 1);
+            }
+        }
+        System.out.println("map5:: "+map5);
+
+        Map<Integer, Long> map6 = Arrays.stream(inputArr).boxed()
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap<Integer, Long>::new,Collectors.counting()));
+        System.out.println("map6:: "+map6);
     }
 }
