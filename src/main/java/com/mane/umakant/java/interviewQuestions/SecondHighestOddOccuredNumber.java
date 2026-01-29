@@ -72,5 +72,16 @@ public class SecondHighestOddOccuredNumber {
                 .map(Map.Entry::getKey)
                 .findFirst();
         System.out.println("secondHighestOddOccuredNumber2: "+secondHighestOddOccuredNumber2);
+        // Below is best as per my openion
+        Optional<Integer>secondHighestOddOccuredNumber3=Arrays.stream(inputArray).boxed().filter(value -> value % 2 != 0)
+                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue,Comparator.reverseOrder()))
+                .skip(1)
+                .map(Map.Entry::getKey)
+                .findFirst();
+        if (secondHighestOddOccuredNumber3.isPresent()){
+            System.out.println("secondHighestOddOccuredNumber3: "+secondHighestOddOccuredNumber3);
+        }
     }
 }
