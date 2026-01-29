@@ -1,6 +1,17 @@
 package com.mane.umakant.java.interviewQuestions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.IntSummaryStatistics;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -561,7 +572,8 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("default value of boolean :: " + containsAllChars);
         for (char ch : second.toCharArray()) {
             if (first.indexOf(ch) == -1) {
-                containsAllChars = false; // if any char missing → return false
+                containsAllChars = false;
+                break;// if any char missing → return false
             }
         }
         if (containsAllChars)
@@ -622,8 +634,8 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("String after removing 'c':: " + result);
 
         //Q30:  compare two different array is same or not. Order of element is no matter
-        int[] arrAccenture1 = { 3, 2, 5, 7 };
-        int[] arrAccenture2 = { 2, 3, 7, 5 };
+        int[] arrAccenture1 = {3, 2, 5, 7};
+        int[] arrAccenture2 = {2, 3, 7, 5};
         // op: array same
         // refer com.mane.umakant.java.interviewQuestions.ArraySameOrNot.java
 
@@ -728,6 +740,95 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("getCount: " + summaryStatistics.getCount());
         System.out.println("getMax: " + summaryStatistics.getMax());
         System.out.println("getMin: " + summaryStatistics.getMin());
+
+        // Q 40 Find 3rd highest number from below string
+        /*
+        1️⃣ c - '0' ✅ (Most Standard / Preferred)
+        .map(c -> c - '0')
+        Why it works
+        Characters '0'–'9' are consecutive in ASCII/Unicode
+        '5' - '0' = 5
+        Pros
+        ✔ Fast (no method calls)
+        ✔ Clean & readable
+        ✔ Interview standard
+        ✔ No object creation
+
+        Cons
+        ❌ Works only for numeric characters
+        👉 Best choice for performance + interviews
+        2️⃣ Character.getNumericValue(c) ✅ (Safe & Clear)
+        .map(c -> Character.getNumericValue(c))
+        Pros
+        ✔ Very readable
+        ✔ Handles more than just '0'–'9' (e.g. Unicode digits)
+
+        Cons
+        ❌ Slightly slower
+        ❌ Overkill for simple digit strings
+        👉 Good when input source is unknown
+        3️⃣ Integer.parseInt(String.valueOf((char)c)) ❌ (Avoid)
+        .map(c -> Integer.parseInt(String.valueOf((char) c)))
+            Cons
+        ❌ Creates String object
+        ❌ Slow
+        ❌ Verbose
+        👉 Not recommended in interviews or production
+        4️⃣ Using toCharArray() instead of chars() (Classic way)
+        for (char c : value.toCharArray()) {
+            int digit = c - '0';
+        }
+        Pros
+        ✔ Very readable
+        ✔ Beginner friendly
+        👉 Often preferred in non-stream codebases
+        5️⃣ Using split("") ❌ (Worst way)
+        Arrays.stream(value.split(""))
+        .mapToInt(Integer::parseInt)
+        Cons
+        ❌ Regex overhead
+        ❌ Creates many objects
+        👉 Never use in interviews
+
+         */
+        String value = "56834901"; // op:  6
+        int thirdHighest = value.chars()
+                .map(c -> c - '0')
+                .distinct()
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .orElseThrow(
+                        () -> new RuntimeException("record not found")
+                );
+        System.out.println("thirdHighest:: " + thirdHighest);
+        // without stream means Java7
+
+        List<Integer> digitList = new ArrayList();
+        // Step 1: Convert characters to digits
+        int[] digits = new int[value.length()];
+        for (int i = 0; i < value.length(); i++) {
+            digitList.add(value.charAt(i) - '0');
+            digits[i] = value.charAt(i) - '0';   // STANDARD way
+        }
+        // Collections.sort(digitList,Collections.reverseOrder());
+        // Step 2: Sort
+        Arrays.sort(digits);
+
+        // Step 3: Find 3rd highest (from end)
+        int thirdHighestChatGpt = digits[digits.length - 3];
+        int thirdHighestJava7 = digitList.stream()
+                .distinct()
+                .sorted(Collections.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .orElseThrow(
+                        () -> new RuntimeException("record not found")
+                );
+
+
+        System.out.println("thirdHighestChatGpt:: " + thirdHighestChatGpt + " thirdHighestJava7:: " + thirdHighestJava7);
 
     }
 
