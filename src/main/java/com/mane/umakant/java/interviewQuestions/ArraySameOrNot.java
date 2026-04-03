@@ -3,7 +3,7 @@ package com.mane.umakant.java.interviewQuestions;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
+// Checking purpose added this line
 public class ArraySameOrNot {
     public static void main(String a[]){
         //Q30:  compare two different array is same or not. Order of element is no matter
@@ -32,7 +32,7 @@ public class ArraySameOrNot {
             System.out.println("Q30: array same");
         }else {
             System.out.println("Q30: array not same");
-        }
+        } 
         //or
         Set<Integer> set1=new HashSet<>();
         Set<Integer> set2=new HashSet<>();
