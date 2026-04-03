@@ -5,12 +5,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SecondHighestOddOccuredNumber {
-    public static void main(String a[]){
+    public static void main(String a[]) {
         //Q37 : find 2nd highest odd occured number");
 
-        int[] inputArray = {13,13,13,13,13,1,2,2,3,3,3,4,4,4,5,5,5,6,6,7,7,11,11,11,11,11,11,11};
-      // op:  occurrenceMap: {1=1, 3=3, 5=3, 7=2, 11=7, 13=5}
-       //op: The 2nd highest odd occurred number is: 13
+        int[] inputArray = {13, 13, 13, 13, 13, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 11, 11, 11, 11, 11, 11, 11};
+        // op:  occurrenceMap: {1=1, 3=3, 5=3, 7=2, 11=7, 13=5}
+        //op: The 2nd highest odd occurred number is: 13
         /*
 
         | Odd Number | Frequency / occurrences|
@@ -31,7 +31,7 @@ public class SecondHighestOddOccuredNumber {
                 occurrenceMap.put(num, occurrenceMap.getOrDefault(num, 0) + 1);
             }
         }
-        System.out.println("occurrenceMap: "+occurrenceMap);
+        System.out.println("occurrenceMap: " + occurrenceMap);
         // Create a list to store all occurrence counts
         ArrayList<Integer> occurrences = new ArrayList<>(occurrenceMap.values());
         // Sort the occurrences in descending order
@@ -52,36 +52,36 @@ public class SecondHighestOddOccuredNumber {
         }
 
         // java8
-        Optional<Integer>secondHighestOddOccuredNumber=Arrays.stream(inputArray).boxed()
-                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+        Optional<Integer> secondHighestOddOccuredNumber = Arrays.stream(inputArray).boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
-                .filter(x->x.getValue()%2!=0)
-                .sorted((x,y)->(int)(y.getValue()-x.getValue()))
-                .map(x->x.getKey())
+                .filter(x -> x.getValue() % 2 != 0)
+                .sorted((x, y) -> (int) (y.getValue() - x.getValue()))
+                .map(x -> x.getKey())
                 .skip(1)
                 .findFirst();
-        System.out.println("secondHighestOddOccuredNumber using Java8:: "+secondHighestOddOccuredNumber);
+        System.out.println("secondHighestOddOccuredNumber using Java8:: " + secondHighestOddOccuredNumber);
 
-        Optional<Integer> secondHighestOddOccuredNumber2 =Arrays.stream(inputArray).boxed()
-                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+        Optional<Integer> secondHighestOddOccuredNumber2 = Arrays.stream(inputArray).boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
-                .filter(v->v.getValue()%2!=0)
-                .sorted((x,y)->(int)(y.getValue() - x.getValue()))
+                .filter(v -> v.getValue() % 2 != 0)
+                .sorted((x, y) -> (int) (y.getValue() - x.getValue()))
                 .distinct()
                 .skip(1)
                 .map(Map.Entry::getKey)
                 .findFirst();
-        System.out.println("secondHighestOddOccuredNumber2: "+secondHighestOddOccuredNumber2);
+        System.out.println("secondHighestOddOccuredNumber2: " + secondHighestOddOccuredNumber2);
         // Below is best as per my openion
-        Optional<Integer>secondHighestOddOccuredNumber3=Arrays.stream(inputArray).boxed().filter(value -> value % 2 != 0)
-                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+        Optional<Integer> secondHighestOddOccuredNumber3 = Arrays.stream(inputArray).boxed().filter(value -> value % 2 != 0)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry::getValue,Comparator.reverseOrder()))
+                .sorted(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()))
                 .skip(1)
                 .map(Map.Entry::getKey)
                 .findFirst();
-        if (secondHighestOddOccuredNumber3.isPresent()){
-            System.out.println("secondHighestOddOccuredNumber3: "+secondHighestOddOccuredNumber3);
+        if (secondHighestOddOccuredNumber3.isPresent()) {
+            System.out.println("secondHighestOddOccuredNumber3: " + secondHighestOddOccuredNumber3);
         }
     }
 }

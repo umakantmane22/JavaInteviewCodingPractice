@@ -55,6 +55,18 @@ public class MinMaxNumberFromGivenInteger {
 
         System.out.println("minJava8: "+minJava8+" maxjava8: "+maxjava8);
 
+       // int number = 3912578;
 
+        String numStr = String.valueOf(oldNumber);
+        int min8 = numStr.chars()
+                // .map(c -> c - '0')
+                .map(Character::getNumericValue).min().orElseThrow();
+
+        int max8 = numStr.chars()
+                // .map(c -> c - '0')
+                .map(Character::getNumericValue).max().getAsInt();
+
+        System.out.println("Min digit: " + min8);
+        System.out.println("Max digit: " + max8);
     }
 }

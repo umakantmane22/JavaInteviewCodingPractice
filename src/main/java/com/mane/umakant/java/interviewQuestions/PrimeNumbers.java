@@ -75,7 +75,7 @@ public class PrimeNumbers {
                 }
             }
             if (isPrimeCheck) {
-                System.out.println(i + " ");
+              //  System.out.println(i + " ");
                 primNumbers.add(i);
             }
         }

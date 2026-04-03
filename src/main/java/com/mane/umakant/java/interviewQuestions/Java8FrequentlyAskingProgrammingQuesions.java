@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IntSummaryStatistics;
 import java.util.LinkedHashMap;
@@ -23,6 +24,21 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         // Q1- Java program to count the occurrence of each character in a string
         // input: ilovejavatechie, output {a=2, c=1, t=1, e=3, v=2, h=1, i=2, j=1, l=1, o=1}
         String input = "ilovejavatechie";
+        Map<Character, Integer> map1 = new HashMap<>();
+        for (char ch : input.toCharArray()) {
+            if (map1.containsKey(ch)) {
+                map1.put(ch, map1.get(ch) + 1);
+            } else {
+                map1.put(ch, 1);
+            }
+        }
+        System.out.println("Q1: " + map1);
+        Map<Character, Integer> map2 = new HashMap<>();
+        for (char ch : input.toCharArray()) {
+            map2.put(ch, map2.getOrDefault(ch, 0) + 1);
+        }
+        System.out.println("Q1: " + map2);
+
         // Count the occurrence of each character
         Map<Character, Long> characterCount = input.chars() // Convert string to IntStream of characters
                 .mapToObj(c -> (char) c)                   // Convert each int to char
@@ -36,7 +52,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         //       System.out.println("Character: " + character + ", Occurrence: " + count));
         System.out.println("Q1:: characterCount:: " + characterCount);
 
-        // Another way which I have habitual
+        // Another way which I have habitual but below style should be avoid as per ChatGpt
 
         Map<String, Long> characterCountString = Arrays.stream(input.split(""))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -136,25 +152,47 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         }
         // Output the largest string
         System.out.println("Q7:: largestString: " + largestString);
+        // or below is best
+        Optional<String> correctApproch = Arrays.stream(strArray)
+                .max(Comparator.comparingInt(String::length));
+        System.out.println("Q7:: largestString correctApproch: " + correctApproch);
         // or
         // Find the largest string (based on length) using Java 8 streams
         String largestString1 = String.valueOf(Arrays.stream(strArray)
                         .max((str1, str2) -> Integer.compare(str1.length(), str2.length())))  // Compare by length
                 .toString();
-        System.out.println("largestString1: " + largestString1);
+        System.out.println("Q7:: largestString1: " + largestString1);
         // or
         String largestString2 = Arrays.stream(strArray)
                 .reduce((word1, word2) -> word1.length() > word2.length() ? word1 : word2).get();
-        System.out.println("llargestString2:: " + largestString2);
+        System.out.println("Q7:: llargestString2:: " + largestString2);
 
         // Q8: Find all element from array who start with 1
         // reuse int[] numbers= {5,9,11,2,8,21,1}; op: [11, 1]
         int[] numbers = {5, 9, 11, 2, 8, 21, 1};
+        // java 7
+        List<Integer> resultQ8 = new ArrayList<>();
+        for (int num : numbers) {
+
+            int tempQ8 = num;
+
+            // Reduce number to its first digit
+            while (tempQ8 >= 10) {
+                tempQ8 /= 10;
+            }
+
+            if (tempQ8 == 1) {
+                resultQ8.add(num);
+            }
+        }
+
+        System.out.println("Q8:: " + resultQ8);
+
         List<Integer> all_element_from_array_who_start_with_1 = Arrays.stream(numbers)
-                .mapToObj(String::valueOf)
-                .filter(s -> s.startsWith("1"))
-                .map(Integer::valueOf)
-                .collect(Collectors.toList());
+                .mapToObj(String::valueOf) // Convert int → String
+                .filter(num -> num.startsWith("1")) // Keep numbers starting with '1'
+                .map(Integer::valueOf) // Convert back String → Integer
+                .toList(); // Collect as List
         System.out.println("Q8:: all_element_from_array_who_start_with_1:: " + all_element_from_array_who_start_with_1);
         // or
         List<String> all_element_from_array_who_start_with_1_ = Arrays.stream(numbers)
@@ -360,12 +398,14 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         // Q22 form a largest number from given array.
         String arrFormLargestNumber[] = {"1", "34", "3", "98", "9", "76", "45", "4"};
         // Sort the array using a custom comparator
+
         Arrays.sort(arrFormLargestNumber, (a, b) -> (b + a).compareTo(a + b));
         // Form the largest number by concatenating the sorted array
         String form_a_largest_number_from_given_array = String.join("", arrFormLargestNumber);
         // Print the result
         System.out.println("Q22: form_a_largest_number_from_given_array:: " + form_a_largest_number_from_given_array);
         // or
+
         String str = "";
         for (String s : arrFormLargestNumber) {
             str = str + s;
@@ -742,6 +782,7 @@ public class Java8FrequentlyAskingProgrammingQuesions {
         System.out.println("getMin: " + summaryStatistics.getMin());
 
         // Q 40 Find 3rd highest number from below string
+        // Asked by Opus Tech 28-01-2026
         /*
         1️⃣ c - '0' ✅ (Most Standard / Preferred)
         .map(c -> c - '0')
@@ -830,6 +871,156 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         System.out.println("thirdHighestChatGpt:: " + thirdHighestChatGpt + " thirdHighestJava7:: " + thirdHighestJava7);
 
+        // Q 41 Write a program to print all combination of the given String ABC.
+        // Ex - ABC: ABC, BCA, CAB, CBA, BAC, ACB
+        // Asked by ZomosoLab 09-02-2026
+        String inputStringFroCombination = "ABC";
+        List<String> combo = new ArrayList<>();
+        for (int i = 0; i < inputStringFroCombination.length(); i++) {
+            for (int j = 0; j < inputStringFroCombination.length(); j++) {
+                for (int k = 0; k < inputStringFroCombination.length(); k++) {
+                    if (i != j && j != k && i != k) {
+                        // System.out.println("" + s.charAt(i) + s.charAt(j) + s.charAt(k));
+                        combo.add("" + inputStringFroCombination.charAt(i) + inputStringFroCombination.charAt(j) + inputStringFroCombination.charAt(k));
+                    }
+                }
+
+            }
+        }
+
+        System.out.println(combo);
+        List<String> comboJava8 = IntStream.range(0, inputStringFroCombination.length()).boxed()
+                .flatMap(i -> IntStream.range(0, inputStringFroCombination.length()).boxed()
+                        .flatMap(j -> IntStream.range(0, inputStringFroCombination.length()).filter(k -> i != j && j != k && i != k)
+                                .mapToObj(k -> "" + inputStringFroCombination.charAt(i) + inputStringFroCombination.charAt(j) + inputStringFroCombination.charAt(k))
+
+                        )).collect(Collectors.toList());
+        System.out.println(comboJava8);
+        /*
+        2️⃣ Hardcoded for length = 3 (Important to mention)
+            Your logic works only for 3 characters.
+            👉 This is OK if you SAY THIS clearly:
+            “This solution is for fixed-length strings like ABC.
+            For dynamic length, recursion or next-permutation is required.”
+            That honesty scores points.
+         */
+        // refer package com.mane.umakant.java.interviewQuestions.StringPermutationsRecursive;
+
+        // Q 42 What is output of below program:
+        // Asked by LtiMindtree 12-02-2026
+        // More details visit package com.mane.umakant.java.interviewQuestions.LtiMindtree
+        /*
+            public class B {
+                B b = new B();
+
+                public int show() {
+                    return (true ? null : 0);
+                }
+
+                public static void main(String[] args) {
+                    B b = new B();
+                    b.show();
+                }
+            }
+          ANS:
+          🎯 Final Conclusion
+            Scenario	Output
+            With B b = new B(); inside class	💥 StackOverflowError
+            Without it	💥 NullPointerException
+        */
+
+        // Q 43 input as below:
+        //"Lambda expressions rock",
+        //"Java is awesome",
+        //"Hello world",
+        //"By",
+        //"Streams are powerful in Java",
+        //"Hi"
+        // Write a Java 8 program to:
+        // 1) Sort the sentences based on the number of words in each sentence (ascending order).
+        //2) If two sentences have the same number of words, sort them alphabetically
+
+        String[] inputTcs = {"Lambda expressions rock", "Java is awesome", "Hello world", "Ki",
+                "Streams are powerful in Java", "Hi"};
+        // or
+      /*  List<String> inputString=Arrays.asList("Lambda expressions rock", "Java is awesome", "Hello world", "Ki",
+                "Streams are powerful in Java", "Hi");*/
+        List<String> resultTcs = Arrays.stream(inputTcs)
+                .sorted(
+                        Comparator
+                                .comparingInt(
+                                        (String sentence) -> sentence.trim().split("\\s+").length
+                                )
+                                .thenComparing(sentence -> sentence)
+                )
+                .toList();
+        System.out.println("Q46: resultTcs:: " + resultTcs);
+
+        // Q 44 if array contains record more than 1 time then return value true otherwise return value false.
+        int[] nums = {1, 2, 3, 1};
+        Set<Integer> set = new HashSet<>();
+        boolean hasDuplicate = false;
+
+        for (int num : nums) {
+            if (!set.add(num)) {
+                hasDuplicate = true;
+                break;
+            }
+        }
+
+        System.out.println("Q 44:: hasDuplicate:: " + hasDuplicate); // true
+
+        boolean hasDuplicateRecord = Arrays.stream(nums).boxed()
+                .collect(Collectors.toSet())
+                .size() != nums.length;
+        System.out.println("Q 44:: hasDuplicateRecord:: " + hasDuplicateRecord);
+
+        // Q 45: find second repeated character from string
+        String name = "programming"; // op: g
+        Optional<Character> ch = name.chars().mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream().filter(entry -> entry.getValue() > 1).map(entry -> entry.getKey()).skip(1).findFirst();
+        System.out.println("Q 45:: " + ch);
+
+        // Q 46: input as below and output show like 1,2,3,4,5,6,9,8,7,6,5,4
+        // input: [[1,2,3], [4,5,6], [9,8,7], [6,5,4]]
+        List<List<Integer>> inputList = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(9, 8, 7),
+                Arrays.asList(6, 5, 4)
+        );
+        List<Integer> flatternData = inputList.stream()
+                .flatMap(innerList -> innerList.stream())
+                // .distinct()
+                //.sorted()
+                .toList();
+        System.out.println("Q: 46:: " + flatternData);
+
+        // Q 47: find duplicate from below input String name = " umakant mane ";
+        String nameWithDupChar = "umakant mane";
+        List<Character> dupChars = nameWithDupChar.chars()
+                .mapToObj(c -> (char) c)
+                .filter(c -> c != ' ')  // ignore space
+                .collect(
+                        Collectors.groupingBy(Function.identity()
+                                , LinkedHashMap::new, Collectors.counting()
+                        )
+                )
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .toList();
+        System.out.println("Q 47:: " + dupChars);
+
+        // Q 48: immuttable
+        // refer package com.mane.umakant.java.interviewQuestions.immutable package
+
+        // Q 49: comparable
+        // refer package com.mane.umakant.java.interviewQuestions.testComparable
+
+        // Q 50: Find the output of below program. Its related to static.
+        // refer ->package com.mane.umakant.java.interviewQuestions.staticTest.Mindtree and Note file
     }
 
 }
