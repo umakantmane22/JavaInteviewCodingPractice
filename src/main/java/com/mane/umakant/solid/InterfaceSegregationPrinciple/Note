@@ -1,0 +1,228 @@
+11-03-2026
+Great 👍 Let’s continue with the 4th SOLID principle using the same 9-point structure.
+This principle was introduced by Robert C. Martin and is closely related to the problems we saw in LSP.
+________________________________________
+4️⃣ Interface Segregation Principle (ISP)
+________________________________________
+1️⃣ Definition (Interview Ready)
+Clients should not be forced to depend on interfaces they do not use.
+In simple words:
+Instead of one large interface, create multiple smaller and specific interfaces.
+________________________________________
+2️⃣ Core Idea
+Large interfaces cause problems because:
+•	classes must implement unnecessary methods
+•	code becomes hard to maintain
+•	it often leads to LSP violations
+Bad design:
+Large Interface
+       ↓
+Classes forced to implement methods they don't need
+Good design:
+Small Specific Interfaces
+       ↓
+Classes implement only what they need
+________________________________________
+3️⃣ Real-World Analogy
+Think about a universal remote control.
+Imagine one remote with 100 buttons:
+•	TV
+•	AC
+•	Music system
+•	Projector
+•	Lights
+But if you only have a TV, most buttons are useless.
+Better design:
+•	TV remote
+•	AC remote
+•	Music remote
+Each device gets only the controls it needs.
+This is Interface Segregation Principle.
+________________________________________
+4️⃣ Bad Design Example (ISP Violation)
+Suppose we create a Worker interface.
+interface Worker {
+
+    void work();
+    void eat();
+}
+
+
+Now implementations:
+class HumanWorker implements Worker {
+
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+
+Now robot worker:
+class RobotWorker implements Worker {
+
+    public void work() {
+        System.out.println("Robot working");
+    }
+
+    public void eat() {
+        throw new UnsupportedOperationException();
+    }
+}
+
+
+Problem:
+Robot does not eat, but the interface forces it.
+This violates ISP.
+________________________________________
+5️⃣ Refactored Design (Correct Approach)
+Split the interface.
+Step 1 — Create small interfaces
+interface Workable {
+    void work();
+}
+interface Eatable {
+    void eat();
+}
+
+
+________________________________________
+Step 2 — Implement only required interfaces
+Human worker:
+class HumanWorker implements Workable, Eatable {
+
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+
+Robot worker:
+class RobotWorker implements Workable {
+
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+
+________________________________________
+Runnable Example
+public class Main {
+
+    public static void main(String[] args) {
+
+        Workable human = new HumanWorker();
+        human.work();
+
+        Workable robot = new RobotWorker();
+        robot.work();
+    }
+}
+
+
+Output
+Human working
+Robot working
+Robot is not forced to implement eat().
+System follows ISP.
+________________________________________
+6️⃣ Advantages in Enterprise Systems
+1️⃣ Cleaner interfaces
+Classes implement only what they need.
+________________________________________
+2️⃣ Reduced coupling
+Components are less dependent on unrelated functionality.
+________________________________________
+3️⃣ Easier maintenance
+Changes in one interface do not affect unrelated classes.
+________________________________________
+4️⃣ Better scalability
+New implementations can be added easily.
+________________________________________
+7️⃣ Common Interview Traps
+Trap 1
+Thinking ISP means many tiny interfaces everywhere.
+Not true.
+Interfaces should be logical and cohesive.
+________________________________________
+Trap 2
+Confusing ISP with Single Responsibility Principle.
+Difference:
+Principle	Focus
+SRP	One responsibility per class
+ISP	Small, specific interfaces
+________________________________________
+Trap 3
+Ignoring ISP in large APIs.
+Huge interfaces create maintenance problems.
+________________________________________
+8️⃣ Relation with Spring Architecture
+Frameworks like **Spring Boot use many small interfaces.
+Example from Spring Data:
+CrudRepository
+PagingAndSortingRepository
+JpaRepository
+Each interface adds specific functionality.
+Developers can choose the level they need.
+Example:
+interface UserRepository extends JpaRepository<User, Long>
+Spring internally uses ISP to keep APIs modular.
+________________________________________
+9️⃣ Scenario-Based Interview Question
+Interview Question
+You are designing a Smart Device system.
+Devices include:
+•	Printer
+•	Scanner
+•	Fax machine
+Initial interface:
+interface Machine {
+
+    void print();
+    void scan();
+    void fax();
+}
+
+
+Problem:
+A simple printer must implement:
+scan()
+fax()
+even if it doesn't support them.
+________________________________________
+Correct Design
+Split the interfaces.
+interface Printer {
+    void print();
+}
+interface Scanner {
+    void scan();
+}
+interface Fax {
+    void fax();
+}
+
+
+Implement:
+SimplePrinter → Printer
+PhotoCopier → Printer + Scanner
+MultiFunctionPrinter → Printer + Scanner + Fax
+Now each device implements only the functionality it supports.
+This follows Interface Segregation Principle.
+________________________________________
+Interview-Ready Answer
+Interface Segregation Principle states that clients should not be forced to depend on methods they do not use. Instead of large interfaces, we should create smaller, more specific interfaces so that implementing classes only depend on the functionality they actually require.
+________________________________________
+✅ Only one SOLID principle remains:
+Dependency Inversion Principle (DIP).
+This one is extremely important in Spring applications because it directly explains Dependency Injection used in **Spring Boot.
+If you want, next I will explain DIP, which usually appears in almost every Java backend interview.
+

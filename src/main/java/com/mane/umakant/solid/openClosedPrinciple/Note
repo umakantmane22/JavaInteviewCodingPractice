@@ -1,0 +1,331 @@
+Great question 👍 This confusion is **very common**, because in explanations we show **class design**, but not **how the program actually runs**.
+So I will provide the **same OCP explanation again**, but now with a **complete runnable Java example**.
+
+The principle was popularized by **Robert C. Martin**.
+
+---
+
+# Open Closed Principle (OCP)
+
+---
+
+# 1️⃣ Definition (Interview Ready)
+
+> Software entities should be **open for extension but closed for modification**.
+
+Meaning:
+
+* We should be able to **add new functionality**
+* **without modifying existing code**
+
+---
+
+# 2️⃣ Core Idea
+
+In real systems, modifying working code is risky because it can introduce **bugs in stable features**.
+
+Instead we design systems using:
+
+* abstraction
+* polymorphism
+* interfaces
+
+Then we **extend behavior by adding new classes**.
+
+---
+
+# 3️⃣ Real-World Analogy
+
+Think about a **mobile charger port**.
+
+Phone hardware does not change.
+
+But you can connect:
+
+* wall charger
+* power bank
+* laptop cable
+* car charger
+
+Phone remains unchanged → new devices extend functionality.
+
+This follows **Open Closed Principle**.
+
+---
+
+# 4️⃣ Bad Design Example (OCP Violation)
+
+```java
+class PaymentService {
+
+    public void pay(String type) {
+
+        if(type.equals("CREDIT_CARD")) {
+            System.out.println("Processing credit card payment");
+        }
+
+        else if(type.equals("UPI")) {
+            System.out.println("Processing UPI payment");
+        }
+
+        else if(type.equals("PAYPAL")) {
+            System.out.println("Processing PayPal payment");
+        }
+    }
+}
+```
+
+### Problem
+
+Whenever a new payment method is added:
+
+* Crypto
+* Apple Pay
+* Net Banking
+
+We must **modify this class again**.
+
+This violates **OCP**.
+
+---
+
+# 5️⃣ Refactored Design (Following OCP)
+
+### Step 1 — Create abstraction
+
+```java
+interface Payment {
+    void pay();
+}
+```
+
+---
+
+### Step 2 — Create implementations
+
+```java
+class CreditCardPayment implements Payment {
+
+    public void pay() {
+        System.out.println("Credit Card Payment Processing");
+    }
+}
+```
+
+```java
+class UpiPayment implements Payment {
+
+    public void pay() {
+        System.out.println("UPI Payment Processing");
+    }
+}
+```
+
+```java
+class PaypalPayment implements Payment {
+
+    public void pay() {
+        System.out.println("Paypal Payment Processing");
+    }
+}
+```
+
+---
+
+### Step 3 — Service using abstraction
+
+```java
+class PaymentService {
+
+    public void processPayment(Payment payment) {
+        payment.pay();
+    }
+}
+```
+
+---
+
+# ⭐ Runnable Example (Main Method)
+
+Now the important part — **how the program actually runs**.
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        PaymentService paymentService = new PaymentService();
+
+        Payment creditCard = new CreditCardPayment();
+        paymentService.processPayment(creditCard);
+
+        Payment upi = new UpiPayment();
+        paymentService.processPayment(upi);
+
+        Payment paypal = new PaypalPayment();
+        paymentService.processPayment(paypal);
+    }
+}
+```
+
+---
+
+# Output
+
+```
+Credit Card Payment Processing
+UPI Payment Processing
+Paypal Payment Processing
+```
+
+---
+
+# 6️⃣ Add New Payment Method (No Code Modification)
+
+Now suppose business adds **Crypto payment**.
+
+We simply add a new class.
+
+```java
+class CryptoPayment implements Payment {
+
+    public void pay() {
+        System.out.println("Crypto Payment Processing");
+    }
+}
+```
+
+Now call it from main:
+
+```java
+Payment crypto = new CryptoPayment();
+paymentService.processPayment(crypto);
+```
+
+---
+
+# New Output
+
+```
+Credit Card Payment Processing
+UPI Payment Processing
+Paypal Payment Processing
+Crypto Payment Processing
+```
+
+Notice something important:
+
+We **did not modify**:
+
+* `PaymentService`
+* `CreditCardPayment`
+* `UpiPayment`
+* `PaypalPayment`
+
+We only **added a new class**.
+
+That is exactly:
+
+> **Open for extension, Closed for modification**
+
+---
+
+# 7️⃣ Advantages in Enterprise Systems
+
+This principle helps in large systems like:
+
+### Payment gateways
+
+New payment providers can be added easily.
+
+### Notification systems
+
+Email, SMS, WhatsApp, Push notifications.
+
+### File processing
+
+CSV, JSON, XML parsers.
+
+### Discount engines
+
+Different discount strategies.
+
+---
+
+# 8️⃣ Relation with **Spring Boot**
+
+Spring applications naturally follow OCP using **interfaces and dependency injection**.
+
+Example:
+
+```java
+@Service
+class PaymentService {
+
+    private final Payment payment;
+
+    public PaymentService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void processPayment() {
+        payment.pay();
+    }
+}
+```
+
+Spring injects the correct implementation automatically.
+
+---
+
+# 9️⃣ Scenario-Based Interview Question
+
+### Interview Question
+
+> Suppose your system supports **Email notifications**.
+> Tomorrow the business wants to add:
+>
+> * SMS
+> * WhatsApp
+> * Push notifications
+>
+> How will you design this system?
+
+---
+
+### Correct Approach
+
+Create abstraction:
+
+```java
+interface Notification {
+    void send();
+}
+```
+
+Implement:
+
+```
+EmailNotification
+SmsNotification
+WhatsappNotification
+PushNotification
+```
+
+Service depends on **Notification interface**, not concrete classes.
+
+New notification types can be added **without modifying existing code**.
+
+---
+
+# Interview-Ready Answer
+
+> Open Closed Principle states that software entities should be open for extension but closed for modification. Instead of modifying existing classes when new functionality is required, we extend the system by adding new classes using abstraction, interfaces, and polymorphism.
+
+---
+
+✅ Next we will study **Liskov Substitution Principle (LSP)**.
+
+But before that, if you want, I can also show you something very useful for interviews:
+
+**How OCP directly leads to 4 major design patterns used in Java systems.**

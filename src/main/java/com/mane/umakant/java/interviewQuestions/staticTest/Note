@@ -1,0 +1,222 @@
+This is a **very good interview question** 👍 — it tests **class loading + initialization order + ternary + autoboxing**.
+
+Let’s go step by step and **visualize execution flow**.
+
+---
+
+# 🔍 Your Code (Key Points)
+
+```java
+static Mindtree obj = new Mindtree();   // (1)
+
+static { System.out.println("Static Block"); }  // (2)
+
+{ System.out.println("Instance Block"); }  // (3)
+
+Mindtree() { System.out.println("Constructor"); }  // (4)
+```
+
+---
+
+# 🚀 Step-by-Step Execution
+
+## 👉 Step 1: Class Loading
+
+When JVM loads class `Mindtree`, it executes **static members in order**.
+
+---
+
+## 🔥 Step 2: Static Variable Initialization
+
+```java
+static Mindtree obj = new Mindtree();
+```
+
+👉 This creates an object BEFORE `main()` runs.
+
+---
+
+### 🔁 Object Creation Flow (VERY IMPORTANT)
+
+Whenever `new Mindtree()` happens:
+
+```
+1. Instance block executes
+2. Constructor executes
+```
+
+---
+
+### ✅ So output so far:
+
+```text
+Instance Block
+Constructor
+```
+
+---
+
+## 👉 Step 3: Static Block Executes
+
+```java
+static {
+    System.out.println("Static Block");
+}
+```
+
+Output:
+
+```text
+Static Block
+```
+
+---
+
+## 👉 Step 4: main() Starts
+
+```java
+System.out.println("Main Started");
+```
+
+Output:
+
+```text
+Main Started
+```
+
+---
+
+## 👉 Step 5: New Object in main()
+
+```java
+Mindtree m = new Mindtree();
+```
+
+Again object creation:
+
+```text
+Instance Block
+Constructor
+```
+
+---
+
+## 👉 Step 6: Call show()
+
+```java
+System.out.println(m.show());
+```
+
+---
+
+# 💥 Inside `show()`
+
+```java
+return (true ? null : 10);
+```
+
+---
+
+## 🔍 What happens?
+
+* `null` and `10` → Java finds common type → `Integer`
+* So expression becomes:
+
+```java
+Integer result = null;
+```
+
+* But method return type is `int`
+
+👉 So Java tries:
+
+```java
+return result.intValue(); // 💥
+```
+
+---
+
+# ❌ Result
+
+```text
+Exception in thread "main" java.lang.NullPointerException
+```
+
+---
+
+# ✅ Final Output (FULL)
+
+```text
+Instance Block
+Constructor
+Static Block
+Main Started
+Instance Block
+Constructor
+Exception in thread "main" java.lang.NullPointerException
+```
+
+---
+
+# 🧠 Key Concepts Tested
+
+---
+
+## 🔥 1. Static Initialization Order
+
+```
+Static variables → Static blocks → main()
+```
+
+---
+
+## 🔥 2. Object Creation Order
+
+```
+Instance block → Constructor
+```
+
+---
+
+## 🔥 3. Ternary + Autoboxing Trap
+
+```java
+(true ? null : 10)
+```
+
+✔ Becomes `Integer`
+❌ Unboxing null → NPE
+
+---
+
+# 🎯 Interview One-Liner
+
+> “Static variables execute before static blocks, and object creation triggers instance block followed by constructor. The program fails with NullPointerException due to unboxing null in the ternary operator.”
+
+---
+
+# 🚀 If you fix `show()`
+
+```java
+public Integer show() {
+    return (true ? null : 10);
+}
+```
+
+👉 Then output becomes:
+
+```text
+Instance Block
+Constructor
+Static Block
+Main Started
+Instance Block
+Constructor
+null
+```
+
+---
+
+If you want next:
+✅ I can draw **memory diagram (stack + heap)** for this
+✅ Or give **5 similar tricky questions asked in interviews**

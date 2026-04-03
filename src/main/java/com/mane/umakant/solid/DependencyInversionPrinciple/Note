@@ -1,0 +1,397 @@
+Great 👍 Now we will cover the **last SOLID principle** using the same **9-point structure**.
+
+This principle is the **foundation of Dependency Injection used in frameworks like Spring Boot**.
+
+It was introduced as part of SOLID by **Robert C. Martin**.
+
+---
+
+# 5️⃣ Dependency Inversion Principle (DIP)
+
+---
+
+# 1️⃣ Definition (Interview Ready)
+
+> **High-level modules should not depend on low-level modules. Both should depend on abstractions.**
+
+Second rule:
+
+> **Abstractions should not depend on details. Details should depend on abstractions.**
+
+Simple meaning:
+
+Instead of depending on **concrete classes**, we depend on **interfaces**.
+
+---
+
+# 2️⃣ Core Idea
+
+In traditional design:
+
+```text
+High-Level Module
+        ↓
+Low-Level Module
+```
+
+Example:
+
+```text
+OrderService → MySQLDatabase
+```
+
+This creates **tight coupling**.
+
+If database changes → service must change.
+
+---
+
+Correct design (DIP):
+
+```text
+High-Level Module
+        ↓
+   Abstraction
+        ↑
+Low-Level Module
+```
+
+Example:
+
+```text
+OrderService → Database Interface
+                    ↑
+           MySQLDatabase
+           MongoDatabase
+```
+
+Now the service depends on **abstraction**, not implementation.
+
+---
+
+# 3️⃣ Real-World Analogy
+
+Think about **electrical appliances**.
+
+Devices like:
+
+* TV
+* Laptop
+* Mobile charger
+
+All connect to a **standard power socket**.
+
+The appliance does **not depend on power plant details**.
+
+It only depends on the **socket interface**.
+
+That is exactly **Dependency Inversion Principle**.
+
+---
+
+# 4️⃣ Bad Design Example (DIP Violation)
+
+```java
+class MySQLDatabase {
+
+    public void save(String data) {
+        System.out.println("Saving to MySQL: " + data);
+    }
+}
+```
+
+High-level module:
+
+```java
+class UserService {
+
+    private MySQLDatabase database = new MySQLDatabase();
+
+    public void saveUser(String user) {
+        database.save(user);
+    }
+}
+```
+
+Problem:
+
+`UserService` is tightly coupled with **MySQLDatabase**.
+
+If we switch to:
+
+* MongoDB
+* PostgreSQL
+* Redis
+
+We must **modify UserService**.
+
+This violates **DIP**.
+
+---
+
+# 5️⃣ Refactored Design (Following DIP)
+
+### Step 1 — Create abstraction
+
+```java
+interface Database {
+    void save(String data);
+}
+```
+
+---
+
+### Step 2 — Implement concrete classes
+
+```java
+class MySQLDatabase implements Database {
+
+    public void save(String data) {
+        System.out.println("Saving to MySQL: " + data);
+    }
+}
+```
+
+```java
+class MongoDatabase implements Database {
+
+    public void save(String data) {
+        System.out.println("Saving to MongoDB: " + data);
+    }
+}
+```
+
+---
+
+### Step 3 — High-level module depends on abstraction
+
+```java
+class UserService {
+
+    private Database database;
+
+    public UserService(Database database) {
+        this.database = database;
+    }
+
+    public void saveUser(String user) {
+        database.save(user);
+    }
+}
+```
+
+---
+
+# Runnable Example
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        Database db = new MySQLDatabase();
+
+        UserService service = new UserService(db);
+        service.saveUser("Umakant");
+    }
+}
+```
+
+Output
+
+```
+Saving to MySQL: Umakant
+```
+
+Now switching database:
+
+```java
+Database db = new MongoDatabase();
+```
+
+No change in `UserService`.
+
+System follows **DIP**.
+
+---
+
+# 6️⃣ Advantages in Enterprise Systems
+
+### 1️⃣ Loose coupling
+
+Modules become independent.
+
+### 2️⃣ Easy testing
+
+Mock implementations can be injected.
+
+### 3️⃣ Flexible architecture
+
+Implementations can change easily.
+
+### 4️⃣ Better maintainability
+
+Business logic is not tied to infrastructure.
+
+---
+
+# 7️⃣ Common Interview Traps
+
+### Trap 1
+
+Confusing **Dependency Injection** with **Dependency Inversion**.
+
+| Concept              | Meaning                  |
+| -------------------- | ------------------------ |
+| Dependency Inversion | Design principle         |
+| Dependency Injection | Implementation technique |
+
+---
+
+### Trap 2
+
+Using `new` keyword inside service classes.
+
+Example:
+
+```java
+new MySQLDatabase()
+```
+
+This creates tight coupling.
+
+---
+
+### Trap 3
+
+Depending on **concrete classes instead of interfaces**.
+
+---
+
+# 8️⃣ Relation with Spring Architecture
+
+Frameworks like **Spring Boot implement DIP using **Dependency Injection**.
+
+Example:
+
+```java
+@Service
+class UserService {
+
+    private final Database database;
+
+    public UserService(Database database) {
+        this.database = database;
+    }
+}
+```
+
+Spring automatically injects the implementation.
+
+Example implementations:
+
+```
+MySQLDatabase
+MongoDatabase
+PostgresDatabase
+```
+
+This is **Dependency Inversion Principle in action**.
+
+---
+
+# 9️⃣ Scenario-Based Interview Question
+
+### Interview Question
+
+You are designing a **notification system**.
+
+System supports:
+
+* Email
+* SMS
+* WhatsApp
+
+Bad design:
+
+```java
+class NotificationService {
+
+    private EmailSender emailSender = new EmailSender();
+
+    public void sendNotification() {
+        emailSender.send();
+    }
+}
+```
+
+Problem:
+
+Service depends on **specific implementation**.
+
+---
+
+### Correct Design
+
+Create abstraction.
+
+```java
+interface MessageSender {
+    void send();
+}
+```
+
+Implementations:
+
+```java
+EmailSender
+SmsSender
+WhatsappSender
+```
+
+Service:
+
+```java
+class NotificationService {
+
+    private MessageSender sender;
+
+    public NotificationService(MessageSender sender) {
+        this.sender = sender;
+    }
+
+    public void notifyUser() {
+        sender.send();
+    }
+}
+```
+
+Now any sender can be injected.
+
+This follows **Dependency Inversion Principle**.
+
+---
+
+# Interview-Ready Answer
+
+> Dependency Inversion Principle states that high-level modules should not depend on low-level modules. Both should depend on abstractions. This reduces tight coupling and allows implementations to change without affecting business logic. Frameworks like Spring Boot implement this principle using Dependency Injection.
+
+---
+
+# 🎉 Congratulations — You Completed SOLID
+
+| Principle | Concept                         |
+| --------- | ------------------------------- |
+| S         | Single Responsibility Principle |
+| O         | Open Closed Principle           |
+| L         | Liskov Substitution Principle   |
+| I         | Interface Segregation Principle |
+| D         | Dependency Inversion Principle  |
+
+---
+
+✅ If you want, I can also show something **extremely useful for interviews**:
+
+**The 5 most common SOLID design questions asked in Senior Java Developer interviews.**
+
+These questions test **multiple SOLID principles together**.
