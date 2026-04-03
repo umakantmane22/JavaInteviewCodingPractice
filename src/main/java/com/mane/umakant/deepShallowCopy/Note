@@ -1,0 +1,143 @@
+Provide one example for shall and deep copy in java
+Here is **one clear and simple example** showing **Shallow Copy** and **Deep Copy** in Java, explained step by step (beginner-friendly and interview-ready).
+
+---
+
+## Scenario
+
+We have a `Person` object which **contains another object** `Address`.
+
+```java
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Person {
+    String name;
+    Address address;
+
+    Person(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+}
+```
+
+---
+
+# 🔹 Shallow Copy Example
+
+### Idea
+
+* **Primitive fields** → copied
+* **Object references** → shared between original and copy
+
+### Code
+
+```java
+public class ShallowCopyExample {
+    public static void main(String[] args) {
+
+        Address address = new Address("Delhi");
+        Person p1 = new Person("Amit", address);
+
+        // Shallow copy
+        Person p2 = new Person(p1.name, p1.address);
+
+        p2.address.city = "Mumbai";
+
+        System.out.println(p1.address.city); // Mumbai
+        System.out.println(p2.address.city); // Mumbai
+    }
+}
+```
+
+### Output
+
+```
+Mumbai
+Mumbai
+```
+
+### Explanation
+
+* `p1` and `p2` **share the same Address object**
+* Changing city via `p2` affects `p1`
+
+👉 **This is Shallow Copy**
+
+---
+
+# 🔹 Deep Copy Example
+
+### Idea
+
+* **Both objects and nested objects are fully copied**
+* No shared references
+
+### Code
+
+```java
+public class DeepCopyExample {
+    public static void main(String[] args) {
+
+        Address address = new Address("Delhi");
+        Person p1 = new Person("Amit", address);
+
+        // Deep copy
+        Address newAddress = new Address(p1.address.city);
+        Person p2 = new Person(p1.name, newAddress);
+
+        p2.address.city = "Mumbai";
+
+        System.out.println(p1.address.city); // Delhi
+        System.out.println(p2.address.city); // Mumbai
+    }
+}
+```
+
+### Output
+
+```
+Delhi
+Mumbai
+```
+
+### Explanation
+
+* `p2` has its **own Address object**
+* Change in `p2` does **not** affect `p1`
+
+👉 **This is Deep Copy**
+
+---
+
+# 🔹 Shallow vs Deep Copy (Quick Comparison)
+
+| Feature                  | Shallow Copy | Deep Copy |
+| ------------------------ | ------------ | --------- |
+| Object reference         | Shared       | Separate  |
+| Memory usage             | Less         | More      |
+| Performance              | Faster       | Slower    |
+| Side effects             | Yes          | No        |
+| Safe for mutable objects | ❌            | ✅         |
+
+---
+
+# 🔹 Interview One-Line Answer
+
+> **Shallow copy copies object references, while deep copy creates completely independent objects including nested objects.**
+
+---
+
+If you want, I can also show:
+
+* `clone()` based example
+* Serialization-based deep copy
+* Real-world interview questions on this topic
+
+Just tell me 👍

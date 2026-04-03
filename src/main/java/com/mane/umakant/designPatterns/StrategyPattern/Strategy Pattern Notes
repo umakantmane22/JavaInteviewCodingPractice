@@ -1,0 +1,251 @@
+ठीक आहे 🙂
+आता **Strategy Design Pattern** अगदी **teacher-style**, step-by-step, **concept → problem → solution → code → real-world mapping → interview points** अशा flow मध्ये शिकवतो.
+
+---
+
+# 1️⃣ आधी problem समजून घेऊ (Why Strategy?)
+
+समजा तुमच्याकडे **Payment Application** आहे.
+
+Initially:
+
+* Cash Payment
+* Card Payment
+
+नंतर:
+
+* UPI
+* NetBanking
+* Crypto 😄
+
+❌ जर तुम्ही असा code लिहिलात तर:
+
+```java
+if(type.equals("CARD")) {
+   // card logic
+} else if(type.equals("UPI")) {
+   // upi logic
+}
+```
+
+👉 प्रत्येक नवीन payment साठी:
+
+* `if-else` वाढत जातो
+* code modify करावा लागतो
+* **OCP (Open–Closed Principle) break होते**
+
+---
+
+# 2️⃣ Strategy Pattern म्हणजे काय?
+
+### 📘 Simple Definition
+
+> **Strategy Pattern** म्हणजे
+> “एका कामासाठी वेगवेगळे algorithms वेगळ्या classes मध्ये define करणे
+> आणि runtime ला algorithm change करण्याची मुभा देणे.”
+
+📌 Meaning:
+
+* **What to do** → fixed
+* **How to do** → changeable
+
+---
+
+# 3️⃣ Strategy Pattern चे 3 main parts
+
+### 1️⃣ Strategy (Interface)
+
+👉 Algorithm define करतो
+
+### 2️⃣ Concrete Strategies
+
+👉 Actual implementations
+
+### 3️⃣ Context
+
+👉 Strategy वापरणारा class
+
+---
+
+# 4️⃣ Simple Example (Teacher Flow)
+
+## 🎯 Example: Payment System
+
+---
+
+## Step 1️⃣ Strategy Interface
+
+```java
+interface PaymentStrategy {
+    void pay(int amount);
+}
+```
+
+---
+
+## Step 2️⃣ Concrete Strategies
+
+### Cash Payment
+
+```java
+class CashPayment implements PaymentStrategy {
+
+    @Override
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Cash");
+    }
+}
+```
+
+### Card Payment
+
+```java
+class CardPayment implements PaymentStrategy {
+
+    @Override
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Card");
+    }
+}
+```
+
+### UPI Payment
+
+```java
+class UpiPayment implements PaymentStrategy {
+
+    @Override
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using UPI");
+    }
+}
+```
+
+---
+
+## Step 3️⃣ Context Class
+
+```java
+class PaymentContext {
+
+    private PaymentStrategy paymentStrategy;
+
+    public PaymentContext(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void payAmount(int amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+```
+
+👉 Context ला **algorithm कसा आहे हे माहित नाही**
+तो फक्त `pay()` call करतो.
+
+---
+
+## Step 4️⃣ Client Code
+
+```java
+public class StrategyDemo {
+
+    public static void main(String[] args) {
+
+        PaymentContext context = new PaymentContext(new CashPayment());
+        context.payAmount(100);
+
+        // runtime strategy change
+        context.setPaymentStrategy(new CardPayment());
+        context.payAmount(200);
+
+        context.setPaymentStrategy(new UpiPayment());
+        context.payAmount(300);
+    }
+}
+```
+
+---
+
+## 5️⃣ Output समजून घ्या
+
+```
+Paid 100 using Cash
+Paid 200 using Card
+Paid 300 using UPI
+```
+
+👉 Same Context
+👉 Different behaviour
+👉 Runtime change ✔
+
+---
+
+# 6️⃣ Strategy Pattern vs if-else (Important)
+
+| Aspect      | if-else  | Strategy  |
+| ----------- | -------- | --------- |
+| Readability | Poor     | Clean     |
+| Extensible  | ❌ No     | ✅ Yes     |
+| OCP         | ❌ Breaks | ✅ Follows |
+| Testing     | Hard     | Easy      |
+
+---
+
+# 7️⃣ Real-World Examples
+
+* Payment methods
+* Sorting algorithms (`Comparator`)
+* Compression (ZIP / RAR)
+* Authentication (JWT / OAuth)
+* Spring Security filters
+
+---
+
+# 8️⃣ Strategy Pattern + Java 8 (Bonus)
+
+Using **Lambda**
+
+```java
+PaymentStrategy cash = amount ->
+        System.out.println("Paid " + amount + " using Cash");
+
+PaymentContext context = new PaymentContext(cash);
+context.payAmount(500);
+```
+
+---
+
+# 9️⃣ Common Mistakes (Interview Trap)
+
+❌ Strategy inside `if-else`
+❌ Too many responsibilities in Context
+❌ Strategy with state (be careful)
+
+---
+
+# 🔟 Interview-Ready Answer
+
+> **Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
+> It eliminates conditional logic and promotes open-closed principle by allowing new strategies without modifying existing code.**
+
+---
+
+## 🧠 Golden Line (Remember This)
+
+> **Strategy lets behaviour change without changing the class.**
+
+---
+
+## पुढे काय करायचं?
+
+* Strategy vs State Pattern
+* Strategy + Spring (@Qualifier)
+* Replace if-else with Strategy registry
+* Real interview problems solved with Strategy
+
+फक्त सांगा 👍

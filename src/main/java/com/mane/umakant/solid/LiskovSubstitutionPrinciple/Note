@@ -1,0 +1,514 @@
+10-03-2026
+Great 👍 Let’s move to the 3rd SOLID principle.
+Again we will follow the same 9-point structure we finalized earlier.
+This principle was introduced by Barbara Liskov and later included in SOLID principles by Robert C. Martin.
+________________________________________
+3️⃣ Liskov Substitution Principle (LSP)
+________________________________________
+1️⃣ Definition (Interview Ready)
+Objects of a superclass should be replaceable with objects of its subclasses without breaking the correctness of the program.
+In simple terms:
+A child class must behave like its parent class.
+If subclass changes expected behavior → LSP violation.
+________________________________________
+2️⃣ Core Idea
+LSP ensures correct inheritance usage.
+Many developers misuse inheritance.
+Bad inheritance leads to:
+•	runtime errors
+•	unexpected behavior
+•	broken polymorphism
+LSP ensures:
+Parent reference
+      ↓
+Child object substitution
+      ↓
+Program still works correctly
+Example:
+Bird bird = new Sparrow();
+bird.fly();
+If we replace Sparrow with another bird, program should still work.
+________________________________________
+3️⃣ Real-World Analogy
+Think about electric power sockets.
+Any device can be plugged in:
+•	phone charger
+•	laptop charger
+•	TV cable
+All devices follow the same socket standard.
+If one device requires special socket, substitution fails.
+That would violate LSP.
+________________________________________
+4️⃣ Bad Design Example (LSP Violation)
+Classic example: Rectangle and Square
+class Rectangle {
+
+    protected int width;
+    protected int height;
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getArea() {
+        return width * height;
+    }
+}
+
+
+Now subclass:
+class Square extends Rectangle {
+
+    public void setWidth(int width) {
+        this.width = width;
+        this.height = width;
+    }
+
+    public void setHeight(int height) {
+        this.width = height;
+        this.height = height;
+    }
+}
+
+
+Now run:
+public class Main {
+
+    public static void main(String[] args) {
+
+        Rectangle rect = new Square();
+
+        rect.setWidth(5);
+        rect.setHeight(10);
+
+        System.out.println(rect.getArea());
+    }
+}
+
+
+Expected result:
+50
+Actual result:
+100
+Why?
+Because Square changes behavior of Rectangle.
+This breaks LSP.
+________________________________________
+5️⃣ Refactored Design (Correct Approach)
+Instead of inheritance, use abstraction.
+interface Shape {
+    int getArea();
+}
+
+
+Rectangle:
+class Rectangle implements Shape {
+
+    private int width;
+    private int height;
+
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public int getArea() {
+        return width * height;
+    }
+}
+
+
+Square:
+class Square implements Shape {
+
+    private int side;
+
+    public Square(int side) {
+        this.side = side;
+    }
+
+    public int getArea() {
+        return side * side;
+    }
+}
+
+
+Main class:
+public class Main {
+
+    public static void main(String[] args) {
+
+        Shape rect = new Rectangle(5,10);
+        Shape square = new Square(5);
+
+        System.out.println(rect.getArea());
+        System.out.println(square.getArea());
+    }
+}
+
+
+Output
+50
+25
+Now substitution works correctly.
+________________________________________
+6️⃣ Advantages in Enterprise Systems
+LSP improves system reliability.
+Benefits:
+1️⃣ Safe polymorphism
+Child objects behave correctly.
+________________________________________
+2️⃣ Prevents fragile inheritance
+Bad inheritance structures cause large production bugs.
+________________________________________
+3️⃣ Improves maintainability
+Developers can replace implementations safely.
+________________________________________
+4️⃣ Supports clean architecture
+Interfaces + abstraction avoid incorrect inheritance.
+________________________________________
+7️⃣ Common Interview Traps
+Trap 1
+Thinking LSP = inheritance
+Wrong.
+LSP ensures correct inheritance usage.
+________________________________________
+Trap 2
+Ignoring behavior changes
+Even if method signatures match, behavior may break.
+________________________________________
+Trap 3
+Overusing inheritance
+Often composition is better than inheritance.
+________________________________________
+8️⃣ Relation with Spring Architecture
+Frameworks like **Spring Boot rely heavily on polymorphism.
+Example:
+PaymentService
+     ↓
+StripePaymentService
+PaypalPaymentService
+RazorpayPaymentService
+Each implementation can replace another without breaking logic.
+That is LSP in action.
+Example:
+PaymentService service = new StripePaymentService();
+Later:
+PaymentService service = new PaypalPaymentService();
+Application should still behave correctly.
+________________________________________
+9️⃣ Scenario-Based Interview Question
+Interview Question
+Suppose you have a Bird class with a fly() method.
+Then you create subclasses:
+•	Sparrow
+•	Eagle
+•	Penguin
+How will you design this system?
+________________________________________
+❌ Bad Design
+class Bird {
+    void fly() {}
+}
+Penguin cannot fly.
+If we write:
+class Penguin extends Bird {
+
+    void fly() {
+        throw new UnsupportedOperationException();
+    }
+}
+This breaks LSP.
+________________________________________
+✅ Correct Design
+Separate flying behavior.
+interface Bird {}
+Flying birds:
+interface FlyingBird {
+    void fly();
+}
+Sparrow:
+class Sparrow implements Bird, FlyingBird {
+
+    public void fly() {
+        System.out.println("Sparrow flying");
+    }
+}
+Penguin:
+class Penguin implements Bird {
+
+    public void swim() {
+        System.out.println("Penguin swimming");
+    }
+}
+Now design is LSP compliant.
+________________________________________
+Interview-Ready Answer
+Liskov Substitution Principle states that objects of a subclass should be replaceable with objects of the superclass without affecting the correctness of the program. This ensures that inheritance is used properly and subclasses do not break expected behavior.
+________________________________________
+✅ Next principle is Interface Segregation Principle (ISP).
+Before moving forward, if you want, I can also show you one very tricky LSP interview question that many senior developers answer incorrectly.
+Great 👍 Let’s look at a tricky LSP interview question.
+Many experienced developers answer this incorrectly, so understanding the reasoning is important.
+The principle originates from Barbara Liskov and was later included in SOLID by Robert C. Martin.
+________________________________________
+Tricky LSP Interview Question
+Interviewer Scenario
+You have a Bird class.
+class Bird {
+    void fly() {
+        System.out.println("Bird is flying");
+    }
+}
+Subclasses:
+class Sparrow extends Bird {}
+class Eagle extends Bird {}
+class Penguin extends Bird {}
+________________________________________
+Question
+Is this design correct or incorrect according to Liskov Substitution Principle?
+Most developers answer:
+"Yes, it is correct because Penguin is also a Bird."
+But this answer is wrong.
+________________________________________
+Why This Design Violates LSP
+A Penguin cannot fly.
+But the parent class forces every bird to support:
+fly()
+If we implement Penguin like this:
+class Penguin extends Bird {
+
+    void fly() {
+        throw new UnsupportedOperationException("Penguins cannot fly");
+    }
+}
+Now consider this code:
+public class Main {
+
+    public static void makeBirdFly(Bird bird) {
+        bird.fly();
+    }
+
+    public static void main(String[] args) {
+
+        Bird bird = new Penguin();
+        makeBirdFly(bird);
+    }
+}
+Program crashes.
+Output:
+Exception in thread "main"
+UnsupportedOperationException
+This means:
+Penguin cannot safely replace Bird.
+So substitution fails, which violates LSP.
+________________________________________
+Correct Design (LSP-Compliant)
+Instead of forcing all birds to fly, separate behaviors.
+Step 1 — Base abstraction
+interface Bird {}
+________________________________________
+Step 2 — Flying capability
+interface FlyingBird {
+    void fly();
+}
+________________________________________
+Step 3 — Implement classes
+Sparrow:
+class Sparrow implements Bird, FlyingBird {
+
+    public void fly() {
+        System.out.println("Sparrow flying");
+    }
+}
+Eagle:
+class Eagle implements Bird, FlyingBird {
+
+    public void fly() {
+        System.out.println("Eagle flying");
+    }
+}
+Penguin:
+class Penguin implements Bird {
+
+    public void swim() {
+        System.out.println("Penguin swimming");
+    }
+}
+Now the design is correct because:
+•	Only birds that can fly implement FlyingBird
+•	Penguins are not forced to implement fly()
+This follows LSP.
+________________________________________
+Runnable Example
+public class Main {
+
+    public static void makeBirdFly(FlyingBird bird) {
+        bird.fly();
+    }
+
+    public static void main(String[] args) {
+
+        FlyingBird sparrow = new Sparrow();
+        makeBirdFly(sparrow);
+
+        FlyingBird eagle = new Eagle();
+        makeBirdFly(eagle);
+
+        Penguin penguin = new Penguin();
+        penguin.swim();
+    }
+}
+Output
+Sparrow flying
+Eagle flying
+Penguin swimming
+No crashes.
+System respects LSP.
+________________________________________
+What Interviewers Are Actually Testing
+When asking this question, interviewers check if you understand:
+Concept	Why
+Inheritance misuse	Common design problem
+Behavior compatibility	Core of LSP
+Abstraction design	Senior developer skill
+Interface segregation	Related SOLID principle
+________________________________________
+Senior-Level Interview Answer
+If interviewer asks:
+Why is the Bird–Penguin example an LSP violation?
+Strong answer:
+Because the subclass Penguin cannot fulfill the behavioral contract of the parent class Bird, specifically the fly() method. When a subclass cannot support the behavior expected by the base class, substituting it breaks program correctness, which violates the Liskov Substitution Principle.
+________________________________________
+Important Insight
+Many developers think LSP is about:
+IS-A relationship
+But LSP is actually about:
+Behavioral compatibility
+A subclass must not change the expected behavior of the parent class.
+________________________________________
+✅ Next SOLID principle is Interface Segregation Principle (ISP).
+It is closely related to the Bird example we just saw.
+If you want, I can show something very useful next:
+A simple rule that helps instantly detect LSP violations during design reviews.
+
+Great 👍 Let’s learn a simple rule to instantly detect Liskov Substitution Principle (LSP) violations during design reviews or interviews.
+This principle originates from Barbara Liskov and is part of SOLID introduced by Robert C. Martin.
+________________________________________
+Simple Rule to Detect LSP Violations
+When reviewing inheritance, ask this question:
+Can the child class replace the parent class everywhere without changing program behavior?
+If the answer is NO, then the design violates LSP.
+________________________________________
+Quick Checklist (Very Useful in Interviews)
+Look for these 3 red flags.
+________________________________________
+🚩 Red Flag 1 — UnsupportedOperationException
+If a subclass throws this:
+throw new UnsupportedOperationException();
+Example:
+class Penguin extends Bird {
+
+    void fly() {
+        throw new UnsupportedOperationException();
+    }
+}
+This means:
+The subclass cannot support the parent behavior.
+This is a clear LSP violation.
+________________________________________
+🚩 Red Flag 2 — Empty Method Implementation
+Example:
+class Penguin extends Bird {
+
+    void fly() {
+        // do nothing
+    }
+}
+This is also bad because:
+•	Parent expects flying behavior
+•	Child silently ignores it
+Still an LSP violation.
+________________________________________
+🚩 Red Flag 3 — Changing Expected Behavior
+Example:
+Parent:
+withdraw(amount)
+Child:
+withdraw(amount) {
+   if(amount > 1000)
+      throw exception
+}
+Now substitution may break existing code.
+Behavior is not compatible anymore.
+________________________________________
+Example from Real Enterprise Systems
+Consider payment gateway abstraction.
+interface PaymentProcessor {
+    void processPayment();
+}
+Good implementations:
+StripePaymentProcessor
+PaypalPaymentProcessor
+RazorpayPaymentProcessor
+Each class behaves correctly when substituted.
+Frameworks like **Spring Boot rely heavily on this concept.
+You can replace implementations without breaking application logic.
+________________________________________
+Quick Mental Model for LSP
+When designing inheritance, always think:
+Parent defines contract
+       ↓
+Child must honor contract
+       ↓
+Behavior must remain valid
+________________________________________
+One-Line Rule (Senior Developer Trick)
+This line impresses interviewers:
+If a subclass needs to disable or alter the parent behavior, inheritance is probably wrong.
+Use composition instead.
+________________________________________
+Another Classic LSP Violation Example
+Bad design:
+Vehicle
+   |
+Car
+Bike
+Bicycle
+If Vehicle defines:
+startEngine()
+But Bicycle has no engine → LSP violation.
+Correct design:
+Vehicle
+   |
+EngineVehicle
+   |      |
+Car     Bike
+Bicycle remains separate.
+________________________________________
+Why LSP Is Important
+Without LSP:
+•	polymorphism breaks
+•	systems become fragile
+•	bugs appear during runtime
+With LSP:
+•	safe substitution
+•	predictable behavior
+•	stable architecture
+________________________________________
+Interview Tip
+If interviewer asks:
+How do you detect LSP violation?
+Best answer:
+I check whether a subclass can replace the parent class without breaking program behavior. Common signs of violation include UnsupportedOperationException, empty method implementations, or behavior changes that break the parent contract.
+________________________________________
+✅ Next SOLID principle is Interface Segregation Principle (ISP).
+Before we start ISP, there is one important relationship many senior developers miss:
+LSP violations often happen because of bad interfaces.
+That is exactly the problem ISP solves.
+If you're ready, we can start Interface Segregation Principle (ISP).
+
