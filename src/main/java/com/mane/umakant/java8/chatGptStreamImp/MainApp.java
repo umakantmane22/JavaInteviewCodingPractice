@@ -13,6 +13,7 @@ public class MainApp {
 
 		// 👉 List created here using factory
 		List<Employee> employees = EmployeeDataFactory.getEmployees();
+		System.out.println(employees);
 		/*
 		 * // Basic print EmployeeService.printAllEmployees(employees);
 		 * 
@@ -217,7 +218,7 @@ public class MainApp {
 		List<Employee> descendingSortBasedOnName = employees.stream().sorted(
 				Comparator.comparing(Employee::getName, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER.reversed())))
 				.collect(Collectors.toList());
-		System.out.println("Q25: descendingSortBasedOnName:: " + descendingSortBasedOnName);
+		//System.out.println("Q25: descendingSortBasedOnName:: " + descendingSortBasedOnName);
 
 		Comparator<Employee> nameSortAsc = Comparator.comparing(Employee::getName,
 				Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
