@@ -1,7 +1,7 @@
 package com.mane.umakant.java.interviewQuestions.staticTest;
 
 public class Mindtree {
-    static Mindtree obj = new Mindtree();
+     Mindtree obj = new Mindtree();
 
     static {
         System.out.println("Static Block");

@@ -1021,6 +1021,48 @@ public class Java8FrequentlyAskingProgrammingQuesions {
 
         // Q 50: Find the output of below program. Its related to static.
         // refer ->package com.mane.umakant.java.interviewQuestions.staticTest.Mindtree and Note file
+
+        // Q51:
+        // Input Map<String,Integer> as below.{Umakant=101}
+        // Exp op: Map<Integer,String> e.g. {101=Umakant}
+        Map<String, Integer> map = new HashMap<>();
+        map.put("Umakant", 101);
+        Map<Integer, String> expOutputMap = map.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getValue
+                        , Map.Entry::getKey));
+        System.out.println("Q 51:: " + expOutputMap);
+        // Q52:
+		/* Write a function to find the longest common prefix string amongst an array of strings.
+		If there is no common prefix, return an empty string "".
+		Example 1
+		Input:
+		strs = ["flower","flow","flight"]
+		Output:
+		"fl" */
+        String[] input1 = { "flower", "flow", "flight" };
+        List<String> input2 = Arrays.asList("flower", "flow", "flight");
+        String prefix1=input1[0];
+        for(int i=0;i<input1.length;i++) { // here we use length
+            while (!input1[i].startsWith(prefix1)) {
+                prefix1=prefix1.substring(0, prefix1.length()-1);
+            }
+        }
+        System.out.println("comms prefix1:: "+prefix1);
+
+        String prefix2=input2.get(0);
+        for(int i=0;i<input2.size();i++) { // here we use size
+            while (!input2.get(i).startsWith(prefix2)) {
+                prefix2=prefix2.substring(0, prefix2.length()-1);
+            }
+        }
+        System.out.println("comms prefix2:: "+prefix2);
+        // Note: Also you can refer below class: com.mane.umakant.java.interviewQuestions.LongestCommonPrefixString
+
+        // Q53:
+        // FunctionalInterface demo code: refer-> com.mane.umakant.java.interviewQuestions.CustomFunctionalInterfaceDemo
+
+
     }
 
 }

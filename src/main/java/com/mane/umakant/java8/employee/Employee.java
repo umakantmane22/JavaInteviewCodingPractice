@@ -5,13 +5,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Employee {
-    int id;
-    String name;
-    int age;
-    String gender;
-    String department;
-    int yearOfJoining;
-    double salary;
+        int id;
+        String name;
+        int age;
+        String gender;
+        String department;
+        int yearOfJoining;
+        double salary;
 
     public Employee(int id, String name, int age, String gender, String department, int yearOfJoining, double salary) {
 
@@ -874,7 +874,7 @@ public class Employee {
                 .collect(Collectors.toList());
         System.out.println("descendingSortBasedOnName1:: " + descendingSortBasedOnName1);
 
-        /* ✅ 1. Ascending Comparators
+        /* ✅ 1. Ascending Comparatorsa
         Below is correct
         Comparator<Employee> nameSort=(e1,e2)->e1.name.compareTo(e2.name);
         Better: Comparator<Employee> nameSort = Comparator.comparing(Employee::getName);
@@ -1617,7 +1617,8 @@ Example:
 
         // 40 group by department name and find only employee names
         Map<String, List<String>> group_by_department_name_and_find_only_employee_names = employeeList.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.mapping(Employee::getName, Collectors.toList())));
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.mapping(Employee::getName, Collectors.toList())));
         System.out.println("Q40: group_by_department_name_and_find_only_employee_names:: " + group_by_department_name_and_find_only_employee_names);
 
         // 41 find duplicate name
