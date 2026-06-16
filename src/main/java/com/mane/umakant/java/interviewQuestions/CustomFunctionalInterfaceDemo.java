@@ -24,6 +24,10 @@ interface MyCondition {
 interface StringProcessor {
     String process(String input);
 }
+@FunctionalInterface
+interface CalculatorGeneric<T>{
+    T calculate(T a, T b);
+}
 
 // 3. Consumer Equivalent
 @FunctionalInterface
@@ -100,6 +104,18 @@ public class CustomFunctionalInterfaceDemo {
         // Custom Function interface
         StringProcessor upperCase = str -> str.toUpperCase();
         System.out.println("Custom Function:: " + upperCase.process("umakant"));
+
+        // Integer Addition
+        CalculatorGeneric<Integer> add = (a, b) -> a + b;
+        System.out.println("Addition: " + add.calculate(10, 5)); // 15
+
+        // Double Subtraction
+        CalculatorGeneric<Double> subtract = (a, b) -> a - b;
+        System.out.println("Subtraction: " + subtract.calculate(20.5, 5.2)); // 15.3
+
+        // String Concatenation
+        CalculatorGeneric<String> concat = (a, b) -> a + b;
+        System.out.println("Concat: " + concat.calculate("Hello ", "World")); // Hello World
 
         // 3. Consumer Equivalent
         System.out.println("");
