@@ -3,21 +3,26 @@ package com.mane.umakant.java.interviewQuestions;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class MinMaxNumberFromGivenInteger {
-    public static void main(String a[]){
+    public static void main(String a[]) {
         //Q35: Write a program to find min and max number from given integer" // op: Optional[1] Optional[9]
         int number = 3912578;
-        int oldNumber=number;
+        int oldNumber = number;
+        int number2 = number;
         // using java7 logic
         // Initialize min and max with extreme values
-        int min = 9;  // Maximum possible digit
-        int max = 0;  // Minimum possible digit
+        //  int min = 9;  // Maximum possible digit
+        //  int max = 0;  // Minimum possible digit
+        int min = Integer.MAX_VALUE;  // Maximum possible digit
+        int max = Integer.MIN_VALUE;  // Minimum possible digit
         // Iterate through each digit without using predefined functions
         if (number == 0) {
             min = max = 0;
-        }else {
+        } else {
             while (number > 0) {
                 int digit = number % 10; // Extract the last digit
                 // Update min if the current digit is smaller
@@ -38,30 +43,31 @@ public class MinMaxNumberFromGivenInteger {
         System.out.println("Updated value in number variable: " + number);
 
         // using Java8
-        Optional<String> minNumber = Arrays.stream(String.valueOf(oldNumber).split("")).min(Comparator.comparing(Integer::valueOf));
-        System.out.println("minNumber:: "+minNumber);
-        String maxNumber=Arrays.stream(String.valueOf(oldNumber).split("")).max(Comparator.comparing(Integer::valueOf)).get();
-        System.out.println("maxNumber:: "+maxNumber);
+        // Best approch 1:
+        IntSummaryStatistics intSummaryStatistics = String.valueOf(number2).chars()
+                // .map(ch->ch-'0')
+                .map(Character::getNumericValue)
+                .summaryStatistics();
+        System.out.println(intSummaryStatistics.getMax() + " " + intSummaryStatistics.getMin());
 
-        int minJava8=Arrays.stream(String.valueOf(oldNumber).split(""))
-                .map(Integer::valueOf)
-                .sorted()
-                .findFirst().get();
+        // Best approch 2:
+        OptionalInt maxJava8UsingMaxOperator = String.valueOf(number2).chars()
+                //   .map(ch->ch-'0')
+                .map(Character::getNumericValue)
+                .max();
+        System.out.println("maxJava8UsingMaxOperator:: " + maxJava8UsingMaxOperator);
+        OptionalInt minJava8UsingMaxOperator = String.valueOf(number2).chars()
+                // .map(ch->ch-'0')
+                .map(Character::getNumericValue)
+                .min();
+        System.out.println("minJava8UsingMaxOperator:: " + minJava8UsingMaxOperator);
 
-        int maxjava8=Arrays.stream(String.valueOf(oldNumber).split(""))
-                .map(Integer::valueOf)
-                .sorted(Collections.reverseOrder())
-                .findFirst().get();
-
-        System.out.println("minJava8: "+minJava8+" maxjava8: "+maxjava8);
-
-       // int number = 3912578;
-
+        // int number = 3912578;
+        // Best approch 3:
         String numStr = String.valueOf(oldNumber);
         int min8 = numStr.chars()
                 // .map(c -> c - '0')
                 .map(Character::getNumericValue).min().orElseThrow();
-
         int max8 = numStr.chars()
                 // .map(c -> c - '0')
                 .map(Character::getNumericValue).max().getAsInt();
