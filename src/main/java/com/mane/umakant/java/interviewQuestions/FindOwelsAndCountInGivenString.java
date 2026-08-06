@@ -1,46 +1,62 @@
 package com.mane.umakant.java.interviewQuestions;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FindOwelsAndCountInGivenString {
     public static void main(String a[]) {
+        // Q 27 Find vowels count in given string.
         String vowelsString = "Naveen AutomationLabs";
+        List<Character> vowels = Arrays.asList(
+                'a', 'A',
+                'e', 'E',
+                'i', 'I',
+                'o', 'O',
+                'u', 'U'
+        );
+        Set<Character> vowelsSet = Set.of(
+                'a','e','i','o','u',
+                'A','E','I','O','U'
+        );
+        int count = 0;
+        int countSet=0;
+        // Now we will Find and print all vowels and there count from the given string
+        Set<Character> foundVowels=new HashSet<>();
+        for (char ch : vowelsString.toCharArray()) {
+            // System.out.println(ch);
+            if (vowels.contains(ch)) {
+                count = count + 1;
+                foundVowels.add(ch);
+            }
+            if (vowelsSet.contains(ch)) {
+                countSet = countSet + 1;
+            }
+        }
+        System.out.println(count+" "+count);
+        System.out.println(countSet+" "+countSet);
+        System.out.println("foundVowels:: "+foundVowels);
 
-        List<Character> vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
-
-
-        // Find and print all vowels from the string
-        String vowelsInString = vowelsString.chars()  // Convert the string to an IntStream
-                .mapToObj(c -> (char) c)  // Convert each int to char
-                .filter(vowels::contains)  // Filter only vowels
-                .map(String::valueOf)  // Convert each character to a string
-                .collect(Collectors.joining());  // Collect the result as a single string
-
-        System.out.println("Vowels in the string: " + vowelsInString);
-
-        String  anotherWay=Arrays.stream(vowelsString.split(""))
-                .map(s -> s.charAt(0))// convert String → char
-                .filter(vowels::contains)// now matches Character
-                .map(String::valueOf)
-                .collect(Collectors.joining());
-        System.out.println("anotherWay:: "+anotherWay);
-
-        // sub que:  Find vowels with there count or occurence
-        Map<Character, Long> vowels_with_there_count = vowelsString.chars()
-                .mapToObj(c -> (char) c)
-                .filter(vowels::contains)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        System.out.println("vowels_with_there_count:: " + vowels_with_there_count);
-
-        long vowelsCount = vowelsString.chars()
-                .mapToObj(c -> (char) c)
-                .filter(vowels::contains)
+        long countJava8=vowelsString
+                .toLowerCase()
+                .chars()
+                .filter(ch->"aeiou".indexOf(ch)>=0)
                 .count();
-        System.out.println("vowelsCount:: " + vowelsCount);
+        System.out.println("countJava8:: "+countJava8);
+
+        Set<String> foundVowelsSet =
+                vowelsString
+                        .chars()
+                        .filter(ch->"aAeEiIoOuU".indexOf(ch)>=0)
+                        .mapToObj(ch -> String.valueOf((char) ch))
+                        .collect(Collectors.toSet());
+        System.out.println("foundVowelsSet:: "+foundVowelsSet);
+
+
     }
 
 }

@@ -1,11 +1,8 @@
 package com.mane.umakant.java.interviewQuestions.testComparable;
 
-public class Movie implements Comparable<Movie>{
-
-    private double rating;
-
+public class Movie implements Comparable<Movie> {
     private String name;
-
+    private double rating;
     private int year;
 
     @Override
@@ -30,6 +27,4 @@ public class Movie implements Comparable<Movie>{
     public int getYear() {
         return year;
     }
-
-
 }

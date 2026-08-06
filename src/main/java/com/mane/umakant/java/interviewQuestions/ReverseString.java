@@ -13,7 +13,18 @@ public class ReverseString {
         // OP
         //reverseStringJava7: 654321
 
-        String inputString = "123456";
+        String inputString = "abcdef";
+        // Best approch:: stringBuilder1
+        String stringBuilder1=new StringBuilder(inputString)
+                .reverse()
+                .toString();
+        System.out.println("stringBuilder1:: "+stringBuilder1);
+
+        StringBuilder stringBuilder2 = new StringBuilder();
+        for (int i = 0; i < inputString.length(); i++) {
+            stringBuilder2.append(inputString.charAt(inputString.length() - i - 1));
+        }
+        System.out.println("stringBuilder2:: "+stringBuilder2);
         System.out.println("input string:: " + inputString);
 
         StringBuffer reversedUsingStringBuffer = new StringBuffer();
@@ -61,6 +72,12 @@ public class ReverseString {
                 .reduce("", String::concat);
 
         System.out.println("Reversed: " + reversed2);
+
+        String reversed3 = IntStream.rangeClosed(1, inputString.length())
+                .mapToObj(i -> String.valueOf(inputString.charAt(inputString.length() - i)))
+                .collect(java.util.stream.Collectors.joining());
+
+        System.out.println("Reversed: " + reversed3);
 
         String revString = Arrays.stream(inputString.split(""))
                 .sorted(Collections.reverseOrder())
